@@ -28,7 +28,7 @@ public class SalaryController {
     private SalaryDAO salaryDao;
     private final static Logger log = Logger.getLogger(SalaryController.class);
 
-    @RequestMapping("/salary/employer/{employerName}")
+    @RequestMapping("/salary/employer/{employerName:.+}")
     public List<Salary> getJob(@PathVariable(value="employerName") String employerName) {
         log.info("employerName: " + employerName);
         return salaryDao.getSalary(employerName);
