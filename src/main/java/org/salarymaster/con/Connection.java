@@ -14,11 +14,11 @@ public class Connection {
         return db;
     }
     
-    public static MongoDatabase getLocalDB(){
-        MongoClient mongoClient = new MongoClient();
-        MongoDatabase db = mongoClient.getDatabase(Parameter.DB_NAME);
-        return db;
-    }
+//    public static MongoDatabase getLocalDB(){
+//        MongoClient mongoClient = new MongoClient();
+//        MongoDatabase db = mongoClient.getDatabase(Parameter.DB_NAME);
+//        return db;
+//    }
     
     
 }
