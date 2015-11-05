@@ -16,10 +16,17 @@ import org.bson.Document;
 import com.mongodb.Block;
 import com.mongodb.client.FindIterable;
 import org.springframework.stereotype.Component;
+import com.mongodb.Block;
+import com.mongodb.client.AggregateIterable;
+import org.bson.Document;
 
+import static java.util.Arrays.asList;
+import javax.servlet.ServletContext;
 import org.salarymaster.con.Connection;
 import org.salarymaster.con.Parameter;
 import org.salarymaster.controller.SalaryController;
+import org.salarymaster.util.FileUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -30,6 +37,10 @@ import org.salarymaster.controller.SalaryController;
 public class SalaryDAOMongo implements SalaryDAO{
     private final static Logger log = Logger.getLogger(SalaryDAOMongo.class);
     MongoDatabase db = null;
+    
+    @Autowired
+    ServletContext servletContext;
+    
     public SalaryDAOMongo(){
         db = Connection.getDB();
         
@@ -72,5 +83,24 @@ public class SalaryDAOMongo implements SalaryDAO{
                 new BasicDBObject("job_info_work_state", stateName));
         log.info("iterable: " + iterable);
         return iterToList(iterable);
+    }
+
+    @Override
+    public boolean updateJson() {
+        
+        return updateJsonFor("city", "job_info_work_city") &&
+                updateJsonFor("employer", "employer_name") &&
+                 updateJsonFor("title", "job_info_job_title");
+    }
+    
+    private boolean updateJsonFor(String name, String colName){
+        AggregateIterable<Document> iterable = db.getCollection(Parameter.COLLECTION_SALARY).aggregate(asList(
+                
+        new Document("$group", new Document("_id", "$" + colName).append("total", new Document("$sum", 1))), 
+                new Document("$sort", new Document("total", -1))
+        ));
+        
+        return FileUtil.jsonToFile(servletContext, name, iterable);
+        
     }
 }

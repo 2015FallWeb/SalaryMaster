@@ -46,6 +46,12 @@ public class SalaryController {
         log.info("employerName: " + stateName);
         return salaryDao.getSalaryByState(stateName);
     }
+    
+    @RequestMapping("/update")
+    public boolean getJobByState() {
+        log.info("update json");
+        return salaryDao.updateJson();
+    }
 
 
 }
