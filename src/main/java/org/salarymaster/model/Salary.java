@@ -3,9 +3,9 @@ package org.salarymaster.model;
 import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
+import java.io.Serializable;
 @Generated("org.jsonschema2pojo")
-public class Salary {
+public class Salary implements Serializable{
 
 @SerializedName("job_info_work_state")
 @Expose
