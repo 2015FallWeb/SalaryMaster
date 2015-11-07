@@ -90,6 +90,14 @@ public class SalaryDAOMongo implements SalaryDAO{
     }
 
     @Override
+    public List<Salary> getSalaryByTitle(String titleName) {
+        FindIterable<Document> iterable = db.getCollection(Parameter.COLLECTION_SALARY).find(
+                new BasicDBObject("job_info_job_title", titleName));
+        log.info("iterable: " + iterable);
+        return iterToList(iterable);
+    }
+
+    @Override
     public boolean updateJson() {
         
         return updateJsonFor("city", "job_info_work_city") &&
