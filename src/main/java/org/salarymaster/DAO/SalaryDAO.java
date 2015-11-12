@@ -16,11 +16,13 @@ import org.springframework.stereotype.Service;
 public interface SalaryDAO {
     public List<Salary> getSalary(String employerName);
     
-    public List<Salary> getSalaryByCity(String city);
+    public List<Salary> getSalaryByCity(String cityName);
     
-    public List<Salary> getSalaryByState(String state);
+    public List<Salary> getSalaryByState(String stateName);
     
-	public List<Salary> getSalaryByTitle(String title);
+    public List<Salary> getSalaryByTitle(String titleName);
+    
+    public String getSalaryJsonByTitle(String titleName);
 
     public boolean updateJson();
 }

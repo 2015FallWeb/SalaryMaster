@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.ArrayList;
 import org.salarymaster.model.Salary;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoDatabase;
 import org.apache.log4j.Logger;
@@ -28,6 +29,7 @@ import org.salarymaster.controller.SalaryController;
 import org.salarymaster.util.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+import redis.clients.jedis.Jedis;
 
 /**
  *
@@ -38,13 +40,14 @@ import org.springframework.cache.annotation.Cacheable;
 public class SalaryDAOMongo implements SalaryDAO{
     private final static Logger log = Logger.getLogger(SalaryDAOMongo.class);
     MongoDatabase db = null;
+    Jedis jd = null;
     
     @Autowired
     ServletContext servletContext;
     
     public SalaryDAOMongo(){
         db = Connection.getDB();
-        
+        jd = Connection.getJD();
     }
     @Override
     @Cacheable("salary")
@@ -88,10 +91,17 @@ public class SalaryDAOMongo implements SalaryDAO{
         log.info("iterable: " + iterable);
         return iterToList(iterable);
     }
-
+    
+    
     @Override
-    @Cacheable("salary")
     public List<Salary> getSalaryByTitle(String titleName) {
+        FindIterable<Document> iterable = db.getCollection(Parameter.COLLECTION_SALARY).find(
+                new BasicDBObject("job_info_job_title", titleName));
+        log.info("iterable: " + iterable);
+        return iterToList(iterable);
+    }
+    
+    public List<Salary> getSalaryByTitleByMongo(String titleName) {
         FindIterable<Document> iterable = db.getCollection(Parameter.COLLECTION_SALARY).find(
                 new BasicDBObject("job_info_job_title", titleName));
         log.info("iterable: " + iterable);
@@ -115,5 +125,18 @@ public class SalaryDAOMongo implements SalaryDAO{
         
         return FileUtil.jsonToFile(servletContext, name, iterable);
         
+    }
+
+    @Override
+    public String getSalaryJsonByTitle(String titleName) {
+        String result = jd.get(titleName);
+        
+        if(result == null){
+            log.info("result from redis failed");
+            Gson gson = new Gson();
+            result = gson.toJson(getSalaryByTitle(titleName));
+        }
+        
+        return result;
     }
 }

@@ -19,6 +19,10 @@ import java.util.concurrent.atomic.AtomicLong;
 import org.jboss.logging.Logger;
 import org.salarymaster.DAO.SalaryDAO;
 import org.salarymaster.model.Salary;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 
 
 
@@ -46,16 +50,26 @@ public class SalaryController {
         log.info("stateName: " + stateName);
         return salaryDao.getSalaryByState(stateName);
     }
-
+    
     @RequestMapping("/salary/title/{titleName}")
     public List<Salary> getJobByTitle(@PathVariable(value="titleName") String titleName) {
         log.info("titleName: " + titleName);
         return salaryDao.getSalaryByTitle(titleName);
     }
-    //getJobByTitle
+
+//    @RequestMapping("/salary/title/{titleName}")
+//    public ResponseEntity<String> getJobByTitle(@PathVariable(value="titleName") String titleName) {
+//        
+//        log.info("titleName: " + titleName);
+//        String json = salaryDao.getSalaryJsonByTitle(titleName);
+//        HttpHeaders responseHeaders = new HttpHeaders();
+//        responseHeaders.setContentType(MediaType.APPLICATION_JSON);
+//        return new ResponseEntity<String>(json, responseHeaders, HttpStatus.CREATED);
+//        
+//    }
 
     @RequestMapping("/update")
-    public boolean getJobByState() {
+    public boolean update() {
         log.info("update json");
         return salaryDao.updateJson();
     }
