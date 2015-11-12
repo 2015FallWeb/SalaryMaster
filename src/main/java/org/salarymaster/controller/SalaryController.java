@@ -36,20 +36,20 @@ public class SalaryController {
     
     @RequestMapping("/salary/city/{cityName}")
     public List<Salary> getJobByCity(@PathVariable(value="cityName") String cityName) {
-        log.info("employerName: " + cityName);
+        log.info("cityName: " + cityName);
         return salaryDao.getSalaryByCity(cityName);
     }
 
     
     @RequestMapping("/salary/state/{stateName}")
     public List<Salary> getJobByState(@PathVariable(value="stateName") String stateName) {
-        log.info("employerName: " + stateName);
+        log.info("stateName: " + stateName);
         return salaryDao.getSalaryByState(stateName);
     }
 
     @RequestMapping("/salary/title/{titleName}")
     public List<Salary> getJobByTitle(@PathVariable(value="titleName") String titleName) {
-        log.info("employerName: " + titleName);
+        log.info("titleName: " + titleName);
         return salaryDao.getSalaryByTitle(titleName);
     }
     //getJobByTitle
