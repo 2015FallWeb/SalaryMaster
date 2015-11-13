@@ -1,6 +1,9 @@
 {
     "elements": {},
     "attributes": {
+        "charset": {
+            "context": "meta"
+        },
         "placeholder": {
             "context": "input"
         }
