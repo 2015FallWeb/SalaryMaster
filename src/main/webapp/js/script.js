@@ -330,4 +330,56 @@ $(document).ready(function() {
             updateByCity("Pittsburgh");
        }
     });
+    
+    
+    var states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California',
+  'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii',
+  'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana',
+  'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota',
+  'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire',
+  'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota',
+  'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island',
+  'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont',
+  'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'
+];
+
+var states = new Bloodhound({
+  datumTokenizer: Bloodhound.tokenizers.whitespace,
+  queryTokenizer: Bloodhound.tokenizers.whitespace,
+  // `states` is an array of state names defined in "The Basics"
+  local: states
+});
+
+$('#state ').typeahead({
+  hint: true,
+  highlight: true,
+  minLength: 1
+},
+{
+  name: 'states',
+  source: states
+});
+
+  $("#state").blur(function(){
+        var employer = $("#employerName").val();
+        var position = $("#position").val();
+        var city = $("#city").val();
+        if(employer.length===0&&position.length===0&&city.length===0){
+            //console.log("abcd");
+            updateByState($("#state").val());
+        }else{
+          table
+                   .columns(3)
+                   .search($("#state").val())
+                   .draw();
+       }
+       $("#state").css({"color":"#337ab7"});
+        var value = $("#state").val();
+        if(position.length===0&&city.length===0&&employer.length===0&&value.length===0){
+            updateByCity("Pittsburgh");
+       }
+    });
+    
+
+    
 } );
