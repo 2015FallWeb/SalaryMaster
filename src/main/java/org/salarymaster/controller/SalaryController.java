@@ -34,6 +34,12 @@ public class SalaryController {
         return salaryDao.getSalary(employerName);
     }
     
+     @RequestMapping("/salary/title/{positionName}")
+    public List<Salary> getJobByTitle(@PathVariable(value="positionName") String positionName) {
+        log.info("positionName: " + positionName);
+        return salaryDao.getSalaryByTitle(positionName);
+    }
+    
     @RequestMapping("/salary/city/{cityName}")
     public List<Salary> getJobByCity(@PathVariable(value="cityName") String cityName) {
         log.info("employerName: " + cityName);

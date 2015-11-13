@@ -20,5 +20,7 @@ public interface SalaryDAO {
     
     public List<Salary> getSalaryByState(String state);
     
+    public List<Salary> getSalaryByTitle(String position);
+    
     public boolean updateJson();
 }
