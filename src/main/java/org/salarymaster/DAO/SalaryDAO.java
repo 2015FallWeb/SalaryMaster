@@ -20,9 +20,11 @@ public interface SalaryDAO {
     
     public List<Salary> getSalaryByState(String stateName);
     
+
     public List<Salary> getSalaryByTitle(String titleName);
     
     public String getSalaryJsonByTitle(String titleName);
+
 
     public boolean updateJson();
 }
