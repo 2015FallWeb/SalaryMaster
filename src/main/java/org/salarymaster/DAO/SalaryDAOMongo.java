@@ -27,6 +27,7 @@ import org.salarymaster.con.Parameter;
 import org.salarymaster.controller.SalaryController;
 import org.salarymaster.util.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 
 /**
  *
@@ -46,6 +47,7 @@ public class SalaryDAOMongo implements SalaryDAO{
         
     }
     @Override
+    @Cacheable("salary")
     public List<Salary> getSalary(String employerName) {
         FindIterable<Document> iterable = db.getCollection(Parameter.COLLECTION_SALARY).find(
                 new BasicDBObject("employer_name", employerName));
@@ -68,15 +70,9 @@ public class SalaryDAOMongo implements SalaryDAO{
         });
         return result;
     }
+
     @Override
-    public List<Salary> getSalaryByTitle(String positionName) {
-        FindIterable<Document> iterable = db.getCollection(Parameter.COLLECTION_SALARY).find(
-                new BasicDBObject("job_info_work_title", positionName));
-        log.info("iterable: " + iterable);
-        return iterToList(iterable);
-    }
-    
-    @Override
+    @Cacheable("salary")
     public List<Salary> getSalaryByCity(String cityName) {
         FindIterable<Document> iterable = db.getCollection(Parameter.COLLECTION_SALARY).find(
                 new BasicDBObject("job_info_work_city", cityName));
@@ -85,9 +81,19 @@ public class SalaryDAOMongo implements SalaryDAO{
     }
 
     @Override
+    @Cacheable("salary")
     public List<Salary> getSalaryByState(String stateName) {
         FindIterable<Document> iterable = db.getCollection(Parameter.COLLECTION_SALARY).find(
                 new BasicDBObject("job_info_work_state", stateName));
+        log.info("iterable: " + iterable);
+        return iterToList(iterable);
+    }
+
+    @Override
+    @Cacheable("salary")
+    public List<Salary> getSalaryByTitle(String titleName) {
+        FindIterable<Document> iterable = db.getCollection(Parameter.COLLECTION_SALARY).find(
+                new BasicDBObject("job_info_job_title", titleName));
         log.info("iterable: " + iterable);
         return iterToList(iterable);
     }

@@ -34,12 +34,6 @@ public class SalaryController {
         return salaryDao.getSalary(employerName);
     }
     
-     @RequestMapping("/salary/title/{positionName}")
-    public List<Salary> getJobByTitle(@PathVariable(value="positionName") String positionName) {
-        log.info("positionName: " + positionName);
-        return salaryDao.getSalaryByTitle(positionName);
-    }
-    
     @RequestMapping("/salary/city/{cityName}")
     public List<Salary> getJobByCity(@PathVariable(value="cityName") String cityName) {
         log.info("employerName: " + cityName);
@@ -52,7 +46,14 @@ public class SalaryController {
         log.info("employerName: " + stateName);
         return salaryDao.getSalaryByState(stateName);
     }
-    
+
+    @RequestMapping("/salary/title/{titleName}")
+    public List<Salary> getJobByTitle(@PathVariable(value="titleName") String titleName) {
+        log.info("employerName: " + titleName);
+        return salaryDao.getSalaryByTitle(titleName);
+    }
+    //getJobByTitle
+
     @RequestMapping("/update")
     public boolean getJobByState() {
         log.info("update json");
