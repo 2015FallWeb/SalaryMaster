@@ -185,6 +185,7 @@ function stateChange(){
 function changeMonitor(){
     $("#employer").change(function() {
         if($("#employer").val().length == 0){
+            console.log("employer is empty");
             table.columns(0).search("")
                    .draw();
         }
@@ -199,6 +200,7 @@ function changeMonitor(){
     
     $("#city").change(function() {
         if($("#city").val().length == 0){
+            
             table.columns(2).search("")
                    .draw();
         }
