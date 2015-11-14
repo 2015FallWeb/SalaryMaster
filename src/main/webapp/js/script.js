@@ -163,11 +163,11 @@ function cityChange(){
 }
 
 function stateChange(){
-            var employer = $("#employerName").val();
+        var employer = $("#employerName").val();
         var position = $("#position").val();
         var city = $("#city").val();
         if(employer.length===0&&position.length===0&&city.length===0){
-            //console.log("abcd");
+            console.log("first query");
             updateByState($("#state").val());
         }else{
           table
@@ -182,7 +182,35 @@ function stateChange(){
        }
 }
 
+function changeMonitor(){
+    $("#employer").change(function() {
+        if($("#employer").val().length == 0){
+            table.columns(0).search("")
+                   .draw();
+        }
+    });
+        
+    $("#position").change(function() {
+        if($("#position").val().length == 0){
+            table.columns(1).search("")
+                   .draw();
+        }
+    });
+    
+    $("#city").change(function() {
+        if($("#city").val().length == 0){
+            table.columns(2).search("")
+                   .draw();
+        }
+    });
 
+    $("#state").change(function() {
+        if($("#state").val().length == 0){
+            table.columns(3).search("")
+                   .draw();
+        }
+    });
+}
 function backToInit(position, city, state, employer){
     if(position.length===0&&city.length===0&&state.length===0&&employer.length===0){
            init();
@@ -290,5 +318,5 @@ $(document).ready(function() {
        var employer = $("#employerName").val();
        backToInit(position, city, state, employer)
        initSuggestion();
-    
+       changeMonitor();
 } );
