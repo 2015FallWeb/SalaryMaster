@@ -150,19 +150,19 @@ function updateByPosition(position){
 function updateByCity(city){
     url = "salary/city/" + city;
     table.ajax.url(url).load();
+
 }
 
 function updateByState(state){
     url = "salary/state/" + state;
     table.ajax.url(url).load();
 }
-
-function iniByCity(iniCityName){
+function initTable(url){
     table = $('#entry').DataTable({
         "serverSide": true,
         "bProcessing": true,
         "ajax": $.fn.dataTable.pipeline({
-            url: "salary/city/" + iniCityName,    //specify ajax url
+            url: url,    //specify ajax url
             pages: 5   // no of pages you wish to cache
         }),
         "columns": [
@@ -197,6 +197,9 @@ function iniByCity(iniCityName){
             
         ]
     });
+}
+function iniByCity(iniCityName){
+    initTable("salary/city/" + iniCityName);
     
 }
 
@@ -432,7 +435,7 @@ $(document).ready(function() {
        var city = $("#city").val();
        var state = $("#state").val();
        var employer = $("#employerName").val();
-       backToInit(position, city, state, employer)
+       backToInit(position, city, state, employer);
        initSuggestion();
        changeMonitor();
 } );

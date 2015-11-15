@@ -30,4 +30,18 @@ public interface SalaryDAO {
     public List<Salary> getSalaryByCity(String cityName, int start, int length, int orderCol, String orderDir);
     
     public int getSalaryCountByCity(String cityName);
+    
+    public List<Salary> getSalaryByState(String stateName, int start, int length, int orderCol, String orderDir);
+    
+    public int getSalaryCountByState(String stateName);
+
+    public List<Salary> getSalaryByTitle(String titleName, int start, int length, int orderCol, String orderDir);
+
+    public int getSalaryCountByTitle(String titleName);
+
+    public List<Salary> getSalaryByEmployer(String employerName, int start, int length, int orderCol, String orderDir);
+
+    public int getSalaryCountByEmployer(String employerName);
+
+    
 }

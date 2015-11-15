@@ -43,7 +43,12 @@ public class SalaryDAOMongo implements SalaryDAO{
         "job_info_work_state", "wage_offer_from_9089", "decision_date"};
     MongoDatabase db = null;
     Jedis jd = null;
-    
+    private final static String EMPLOYER = "employer_name";
+    private final static String TITLE = "job_info_job_title";
+    private final static String CITY = "job_info_work_city";
+    private final static String STATE = "job_info_work_state";
+    private final static String SALARY = "wage_offer_from_9089";
+    private final static String DATE = "decision_date";
     @Autowired
     ServletContext servletContext;
     
@@ -55,7 +60,7 @@ public class SalaryDAOMongo implements SalaryDAO{
     @Cacheable("salary")
     public List<Salary> getSalary(String employerName) {
         FindIterable<Document> iterable = db.getCollection(Parameter.COLLECTION_SALARY).find(
-                new BasicDBObject("employer_name", employerName));
+                new BasicDBObject(EMPLOYER, employerName));
         log.info("iterable: " + iterable);
         return iterToList(iterable);
     }
@@ -93,7 +98,7 @@ public class SalaryDAOMongo implements SalaryDAO{
     @Cacheable("salary")
     public List<Salary> getSalaryByCity(String cityName) {
         FindIterable<Document> iterable = db.getCollection(Parameter.COLLECTION_SALARY).find(
-                new BasicDBObject("job_info_work_city", cityName));
+                new BasicDBObject(CITY, cityName));
         log.info("iterable: " + iterable);
         return iterToList(iterable);
     }
@@ -102,7 +107,7 @@ public class SalaryDAOMongo implements SalaryDAO{
     @Cacheable("salary")
     public List<Salary> getSalaryByState(String stateName) {
         FindIterable<Document> iterable = db.getCollection(Parameter.COLLECTION_SALARY).find(
-                new BasicDBObject("job_info_work_state", stateName));
+                new BasicDBObject(STATE, stateName));
         log.info("iterable: " + iterable);
         return iterToList(iterable);
     }
@@ -111,14 +116,14 @@ public class SalaryDAOMongo implements SalaryDAO{
     @Override
     public List<Salary> getSalaryByTitle(String titleName) {
         FindIterable<Document> iterable = db.getCollection(Parameter.COLLECTION_SALARY).find(
-                new BasicDBObject("job_info_job_title", titleName));
+                new BasicDBObject(TITLE, titleName));
         log.info("iterable: " + iterable);
         return iterToList(iterable);
     }
     
     public List<Salary> getSalaryByTitleByMongo(String titleName) {
         FindIterable<Document> iterable = db.getCollection(Parameter.COLLECTION_SALARY).find(
-                new BasicDBObject("job_info_job_title", titleName));
+                new BasicDBObject(TITLE, titleName));
         log.info("iterable: " + iterable);
         return iterToList(iterable);
     }
@@ -126,9 +131,9 @@ public class SalaryDAOMongo implements SalaryDAO{
     @Override
     public boolean updateJson() {
         
-        return updateJsonFor("city", "job_info_work_city") &&
-                updateJsonFor("employer", "employer_name") &&
-                 updateJsonFor("title", "job_info_job_title");
+        return updateJsonFor("city", CITY) &&
+                updateJsonFor("employer", EMPLOYER) &&
+                 updateJsonFor("title", TITLE);
     }
     
     private boolean updateJsonFor(String name, String colName){
@@ -154,22 +159,63 @@ public class SalaryDAOMongo implements SalaryDAO{
         
         return result;
     }
-
-    @Override
-    public List<Salary> getSalaryByCity(String cityName, int start, int length, int orderCol, String orderDir) {
+    
+    private List<Salary> getSalaryByField(String key, String value, int start, int length, 
+            int orderCol, String orderDir){
         int dir = orderDir.equals("asc") ? 1 : -1;
         FindIterable<Document> iterable = db.getCollection(Parameter.COLLECTION_SALARY).find(
-                new BasicDBObject("job_info_work_city", cityName)).sort(new Document(colArray[orderCol], dir)).skip(start).limit(length);
+                new BasicDBObject(key, value)).sort(new Document(colArray[orderCol], dir)).skip(start).limit(length);
         log.info("iterable: " + iterable);
         return iterToList(iterable);
+    }
+    
+    private int getSalaryCountByField(String key, String value){
+        long count = db.getCollection(Parameter.COLLECTION_SALARY).count(
+                new BasicDBObject(key, value));
+        log.info("count " + count);
+        return (int) count;
+    }
+    @Override
+    public List<Salary> getSalaryByCity(String cityName, int start, int length, 
+            int orderCol, String orderDir) {
+        return getSalaryByField(CITY, cityName, start, length, orderCol, orderDir);
     }
 
     @Override
     @Cacheable("salaryCount")
     public int getSalaryCountByCity(String cityName) {
-        long count = db.getCollection(Parameter.COLLECTION_SALARY).count(
-                new BasicDBObject("job_info_work_city", cityName));
-        log.info("count " + count);
-        return (int) count;
+        return getSalaryCountByField(CITY, cityName);
+    }
+
+    @Override
+    public List<Salary> getSalaryByState(String stateName, int start, int length, 
+            int orderCol, String orderDir) {
+        return getSalaryByField(STATE, stateName, start, length, orderCol, orderDir);
+    }
+    
+    @Override
+    @Cacheable("salaryCount")
+    public int getSalaryCountByState(String stateName) {
+       return getSalaryCountByField(STATE, stateName);
+    }
+
+    @Override
+    public List<Salary> getSalaryByTitle(String titleName, int start, int length, int orderCol, String orderDir) {
+        return getSalaryByField(TITLE, titleName, start, length, orderCol, orderDir);
+    }
+
+    @Override
+    public int getSalaryCountByTitle(String titleName) {
+        return getSalaryCountByField(TITLE, titleName);
+    }
+
+    @Override
+    public List<Salary> getSalaryByEmployer(String employerName, int start, int length, int orderCol, String orderDir) {
+        return getSalaryByField(EMPLOYER, employerName, start, length, orderCol, orderDir);
+    }
+
+    @Override
+    public int getSalaryCountByEmployer(String employerName) {
+       return getSalaryCountByField(EMPLOYER, employerName);
     }
 }

@@ -34,22 +34,28 @@ public class SalaryController {
     private final static Logger log = Logger.getLogger(SalaryController.class);
 
     @RequestMapping("/salary/employer/{employerName:.+}")
-    public List<Salary> getJob(@PathVariable(value="employerName") String employerName) {
-        log.info("employerName: " + employerName);
-        return salaryDao.getSalary(employerName);
+    public SalaryTable getJob(@PathVariable(value="employerName") String employerName,
+        @RequestParam("start") int start, @RequestParam("length") int length, 
+            @RequestParam("draw") int draw, @RequestParam("order[0][column]")int orderCol, 
+            @RequestParam("order[0][dir]")String orderDir) {
+        
+        log.info("employerName: " + employerName + ", start:" + start + ", length: " + length + ", draw: " + draw + ", orderCol: " + orderCol + ", orderDir: " + orderDir);
+        SalaryTable table = new SalaryTable();
+        List<Salary> list = salaryDao.getSalaryByEmployer(employerName, start, length, orderCol, orderDir);
+        int count = salaryDao.getSalaryCountByEmployer(employerName);
+        table.setData(list);
+        table.setRecordsTotal(count);
+        table.setRecordsFiltered(count);
+        table.setDraw(draw);
+        return table;
     }
-    
-//    @RequestMapping("/salary/city/{cityName}")
-//    public List<Salary> getJobByCity(@PathVariable(value="cityName") String cityName) {
-//        log.info("cityName: " + cityName);
-//        return salaryDao.getSalaryByCity(cityName);
-//    }
-//    
+
     @RequestMapping("/salary/city/{cityName}")
     public SalaryTable getJobByCity(@PathVariable(value="cityName") String cityName, 
             @RequestParam("start") int start, @RequestParam("length") int length, 
             @RequestParam("draw") int draw, @RequestParam("order[0][column]")int orderCol, 
             @RequestParam("order[0][dir]")String orderDir) {
+        
         log.info("cityName: " + cityName + ", start:" + start + ", length: " + length + ", draw: " + draw + ", orderCol: " + orderCol + ", orderDir: " + orderDir);
         SalaryTable table = new SalaryTable();
         List<Salary> list = salaryDao.getSalaryByCity(cityName, start, length, orderCol, orderDir);
@@ -63,27 +69,38 @@ public class SalaryController {
 
     
     @RequestMapping("/salary/state/{stateName}")
-    public List<Salary> getJobByState(@PathVariable(value="stateName") String stateName) {
-        log.info("stateName: " + stateName);
-        return salaryDao.getSalaryByState(stateName);
+    public SalaryTable getJobByState(@PathVariable(value="stateName") String stateName,
+            @RequestParam("start") int start, @RequestParam("length") int length, 
+            @RequestParam("draw") int draw, @RequestParam("order[0][column]")int orderCol, 
+            @RequestParam("order[0][dir]")String orderDir) {
+        
+        log.info("stateName: " + stateName + ", start:" + start + ", length: " + length + ", draw: " + draw + ", orderCol: " + orderCol + ", orderDir: " + orderDir);
+        SalaryTable table = new SalaryTable();
+        List<Salary> list = salaryDao.getSalaryByState(stateName, start, length, orderCol, orderDir);
+        int count = salaryDao.getSalaryCountByState(stateName);
+        table.setData(list);
+        table.setRecordsTotal(count);
+        table.setRecordsFiltered(count);
+        table.setDraw(draw);
+        return table;
     }
     
     @RequestMapping("/salary/title/{titleName}")
-    public List<Salary> getJobByTitle(@PathVariable(value="titleName") String titleName) {
-        log.info("titleName: " + titleName);
-        return salaryDao.getSalaryByTitle(titleName);
+    public SalaryTable getJobByTitle(@PathVariable(value="titleName") String titleName,
+            @RequestParam("start") int start, @RequestParam("length") int length, 
+            @RequestParam("draw") int draw, @RequestParam("order[0][column]")int orderCol, 
+            @RequestParam("order[0][dir]")String orderDir) {
+        
+        log.info("titleName: " + titleName + ", start:" + start + ", length: " + length + ", draw: " + draw + ", orderCol: " + orderCol + ", orderDir: " + orderDir);
+        SalaryTable table = new SalaryTable();
+        List<Salary> list = salaryDao.getSalaryByTitle(titleName, start, length, orderCol, orderDir);
+        int count = salaryDao.getSalaryCountByTitle(titleName);
+        table.setData(list);
+        table.setRecordsTotal(count);
+        table.setRecordsFiltered(count);
+        table.setDraw(draw);
+        return table;
     }
-
-//    @RequestMapping("/salary/title/{titleName}")
-//    public ResponseEntity<String> getJobByTitle(@PathVariable(value="titleName") String titleName) {
-//        
-//        log.info("titleName: " + titleName);
-//        String json = salaryDao.getSalaryJsonByTitle(titleName);
-//        HttpHeaders responseHeaders = new HttpHeaders();
-//        responseHeaders.setContentType(MediaType.APPLICATION_JSON);
-//        return new ResponseEntity<String>(json, responseHeaders, HttpStatus.CREATED);
-//        
-//    }
 
     @RequestMapping("/update")
     public boolean update() {
