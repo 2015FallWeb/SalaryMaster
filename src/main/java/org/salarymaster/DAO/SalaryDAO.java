@@ -25,6 +25,9 @@ public interface SalaryDAO {
     
     public String getSalaryJsonByTitle(String titleName);
 
-
     public boolean updateJson();
+    
+    public List<Salary> getSalaryByCity(String cityName, int start, int length, int orderCol, String orderDir);
+    
+    public int getSalaryCountByCity(String cityName);
 }

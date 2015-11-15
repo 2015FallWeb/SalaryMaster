@@ -19,6 +19,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import org.jboss.logging.Logger;
 import org.salarymaster.DAO.SalaryDAO;
 import org.salarymaster.model.Salary;
+import org.salarymaster.model.SalaryTable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -38,10 +39,26 @@ public class SalaryController {
         return salaryDao.getSalary(employerName);
     }
     
+//    @RequestMapping("/salary/city/{cityName}")
+//    public List<Salary> getJobByCity(@PathVariable(value="cityName") String cityName) {
+//        log.info("cityName: " + cityName);
+//        return salaryDao.getSalaryByCity(cityName);
+//    }
+//    
     @RequestMapping("/salary/city/{cityName}")
-    public List<Salary> getJobByCity(@PathVariable(value="cityName") String cityName) {
-        log.info("cityName: " + cityName);
-        return salaryDao.getSalaryByCity(cityName);
+    public SalaryTable getJobByCity(@PathVariable(value="cityName") String cityName, 
+            @RequestParam("start") int start, @RequestParam("length") int length, 
+            @RequestParam("draw") int draw, @RequestParam("order[0][column]")int orderCol, 
+            @RequestParam("order[0][dir]")String orderDir) {
+        log.info("cityName: " + cityName + ", start:" + start + ", length: " + length + ", draw: " + draw + ", orderCol: " + orderCol + ", orderDir: " + orderDir);
+        SalaryTable table = new SalaryTable();
+        List<Salary> list = salaryDao.getSalaryByCity(cityName, start, length, orderCol, orderDir);
+        int count = salaryDao.getSalaryCountByCity(cityName);
+        table.setData(list);
+        table.setRecordsTotal(count);
+        table.setRecordsFiltered(count);
+        table.setDraw(draw);
+        return table;
     }
 
     
