@@ -159,6 +159,13 @@ function updateByState(state){
 }
 function initTable(url){
     table = $('#entry').DataTable({
+//        "search": {
+//            "regex": true
+//        },
+        "lengthMenu": [50, 100],
+        "bFilter": false, 
+        
+        "pageLength": 50,
         "serverSide": true,
         "bProcessing": true,
         "ajax": $.fn.dataTable.pipeline({
@@ -229,7 +236,7 @@ function employerChange(){
        }else{
            table
                    .columns(0)
-                   .search($("#employerName").val())
+                   .search("^" + $("#employerName").val() + "$")
                    .draw();
        }
        
@@ -248,7 +255,8 @@ function positionChange(){
             console.log("first query");
             updateByPosition($("#position").val());
         }else{
-          table
+            console.log("position search");
+            table
                    .columns(1)
                    .search($("#position").val())
                    .draw();
