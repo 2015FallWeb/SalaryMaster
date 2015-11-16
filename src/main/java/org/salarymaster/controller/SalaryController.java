@@ -32,9 +32,29 @@ public class SalaryController {
     @Autowired
     private SalaryDAO salaryDao;
     private final static Logger log = Logger.getLogger(SalaryController.class);
-
+    
+    @RequestMapping("/salary/search")
+    public SalaryTable getJob(@RequestParam(value="employerName") String employerName,
+            @RequestParam(value="stateName") String stateName, @RequestParam(value="cityName") String cityName,
+            @RequestParam(value="titleName") String titleName,
+            @RequestParam("start") int start, @RequestParam("length") int length, 
+            @RequestParam("draw") int draw, @RequestParam("order[0][column]")int orderCol, 
+            @RequestParam("order[0][dir]")String orderDir) {
+        
+        log.info("employerName: " + employerName + " stateName: " + stateName + " cityName: " + cityName + " titleName: " + titleName + 
+                ", start:" + start + ", length: " + length + ", draw: " + draw + ", orderCol: " + orderCol + ", orderDir: " + orderDir);
+        SalaryTable table = new SalaryTable();
+        List<Salary> list = salaryDao.getSalary(employerName, stateName, cityName, titleName, start, length, orderCol, orderDir);
+        int count = salaryDao.getSalaryCount(employerName, stateName, cityName, titleName);
+        table.setData(list);
+        table.setRecordsTotal(count);
+        table.setRecordsFiltered(count);
+        table.setDraw(draw);
+        return table;
+    }
+    
     @RequestMapping("/salary/employer/{employerName:.+}")
-    public SalaryTable getJob(@PathVariable(value="employerName") String employerName,
+    public SalaryTable getJobByEmployer(@PathVariable(value="employerName") String employerName,
         @RequestParam("start") int start, @RequestParam("length") int length, 
             @RequestParam("draw") int draw, @RequestParam("order[0][column]")int orderCol, 
             @RequestParam("order[0][dir]")String orderDir) {

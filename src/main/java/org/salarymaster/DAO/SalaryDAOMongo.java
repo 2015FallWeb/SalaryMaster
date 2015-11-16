@@ -218,4 +218,42 @@ public class SalaryDAOMongo implements SalaryDAO{
     public int getSalaryCountByEmployer(String employerName) {
        return getSalaryCountByField(EMPLOYER, employerName);
     }
+
+    @Override
+    public List<Salary> getSalary(String employerName, String stateName, String cityName, String titleName, int start, int length, int orderCol, String orderDir) {
+        
+        BasicDBObject query = new BasicDBObject();
+        if(employerName.length() != 0)
+            query.put(EMPLOYER, employerName);
+        if(stateName.length() != 0)
+             query.put(STATE, stateName);
+        if(cityName.length() != 0)
+            query.put(CITY, cityName);
+        if(titleName.length() != 0)
+            query.put(TITLE, titleName);   
+
+        int dir = orderDir.equals("asc") ? 1 : -1;
+        FindIterable<Document> iterable = db.getCollection(Parameter.COLLECTION_SALARY).find(query)
+                .sort(new Document(colArray[orderCol], dir)).skip(start).limit(length);
+        log.info("iterable: " + iterable);
+        return iterToList(iterable);
+
+    }
+    
+    @Override
+    public int getSalaryCount(String employerName, String stateName, String cityName, String titleName) {
+        BasicDBObject query = new BasicDBObject();
+        if(employerName.length() != 0)
+            query.put(EMPLOYER, employerName);
+        if(stateName.length() != 0)
+             query.put(STATE, stateName);
+        if(cityName.length() != 0)
+            query.put(CITY, cityName);
+        if(titleName.length() != 0)
+            query.put(TITLE, titleName);  
+        long count = db.getCollection(Parameter.COLLECTION_SALARY).count(query);
+        
+        log.info("count " + count);
+        return (int) count;
+    }
 }

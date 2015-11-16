@@ -3,119 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-//
-// Pipelining function for DataTables. To be used to the `ajax` option of DataTables
-//
-$.fn.dataTable.pipeline = function ( opts ) {
-    // Configuration options
-    var conf = $.extend( {
-        pages: 5,     // number of pages to cache
-        url: '',      // script url
-        data: null,   // function or object with parameters to send to the server
-                      // matching how `ajax.data` works in DataTables
-        method: 'GET' // Ajax HTTP method
-    }, opts );
- 
-    // Private variables for storing the cache
-    var cacheLower = -1;
-    var cacheUpper = null;
-    var cacheLastRequest = null;
-    var cacheLastJson = null;
- 
-    return function ( request, drawCallback, settings ) {
-        var ajax          = false;
-        var requestStart  = request.start;
-        var drawStart     = request.start;
-        var requestLength = request.length;
-        var requestEnd    = requestStart + requestLength;
-         
-        if ( settings.clearCache ) {
-            // API requested that the cache be cleared
-            ajax = true;
-            settings.clearCache = false;
-        }
-        else if ( cacheLower < 0 || requestStart < cacheLower || requestEnd > cacheUpper ) {
-            // outside cached data - need to make a request
-            ajax = true;
-        }
-        else if ( JSON.stringify( request.order )   !== JSON.stringify( cacheLastRequest.order ) ||
-                  JSON.stringify( request.columns ) !== JSON.stringify( cacheLastRequest.columns ) ||
-                  JSON.stringify( request.search )  !== JSON.stringify( cacheLastRequest.search )
-        ) {
-            // properties changed (ordering, columns, searching)
-            ajax = true;
-        }
-         
-        // Store the request for checking next time around
-        cacheLastRequest = $.extend( true, {}, request );
- 
-        if ( ajax ) {
-            // Need data from the server
-            if ( requestStart < cacheLower ) {
-                requestStart = requestStart - (requestLength*(conf.pages-1));
- 
-                if ( requestStart < 0 ) {
-                    requestStart = 0;
-                }
-            }
-             
-            cacheLower = requestStart;
-            cacheUpper = requestStart + (requestLength * conf.pages);
- 
-            request.start = requestStart;
-            request.length = requestLength*conf.pages;
- 
-            // Provide the same `data` options as DataTables.
-            if ( $.isFunction ( conf.data ) ) {
-                // As a function it is executed with the data object as an arg
-                // for manipulation. If an object is returned, it is used as the
-                // data object to submit
-                var d = conf.data( request );
-                if ( d ) {
-                    $.extend( request, d );
-                }
-            }
-            else if ( $.isPlainObject( conf.data ) ) {
-                // As an object, the data given extends the default
-                $.extend( request, conf.data );
-            }
- 
-            settings.jqXHR = $.ajax( {
-                "type":     conf.method,
-                "url":      conf.url,
-                "data":     request,
-                "dataType": "json",
-                "cache":    false,
-                "success":  function ( json ) {
-                    cacheLastJson = $.extend(true, {}, json);
- 
-                    if ( cacheLower != drawStart ) {
-                        json.data.splice( 0, drawStart-cacheLower );
-                    }
-                    json.data.splice( requestLength, json.data.length );
-                     
-                    drawCallback( json );
-                }
-            } );
-        }
-        else {
-            json = $.extend( true, {}, cacheLastJson );
-            json.draw = request.draw; // Update the echo for each response
-            json.data.splice( 0, requestStart-cacheLower );
-            json.data.splice( requestLength, json.data.length );
- 
-            drawCallback(json);
-        }
-    }
-};
- 
-// Register an API method that will empty the pipelined data, forcing an Ajax
-// fetch on the next draw (i.e. `table.clearPipeline().draw()`)
-$.fn.dataTable.Api.register( 'clearPipeline()', function () {
-    return this.iterator( 'table', function ( settings ) {
-        settings.clearCache = true;
-    } );
-} );
 var employerName = "University Of Pittsburgh";
 var employerName2 = "Google Inc."; //for test
 var iniCityName = "Pittsburgh";
@@ -136,21 +23,23 @@ var employers = [];
 var cities = [];
 var positions = [];
 
-
+function update(){
+    var url = "salary/search";
+    table.ajax.url(url).load();
+}
 function updateByEmployer(employerName){
-    url = "salary/employer/" + employerName;
+    var url = "salary/employer/" + employerName;
     table.ajax.url(url).load();
 }
 
 function updateByPosition(position){
-    url = "salary/title/" + position;
+    var url = "salary/title/" + position;
     table.ajax.url(url).load();
 }
 
 function updateByCity(city){
-    url = "salary/city/" + city;
+    var url = "salary/city/" + city;
     table.ajax.url(url).load();
-
 }
 
 function updateByState(state){
@@ -164,14 +53,18 @@ function initTable(url){
 //        },
         "lengthMenu": [50, 100],
         "bFilter": false, 
-        
         "pageLength": 50,
         "serverSide": true,
         "bProcessing": true,
-        "ajax": $.fn.dataTable.pipeline({
+        "ajax": {
             url: url,    //specify ajax url
-            pages: 5   // no of pages you wish to cache
-        }),
+            data: function ( d ) {
+                 d.employerName = $('#employerName').val();
+                 d.cityName = $('#city').val();
+                 d.stateName = $('#state').val();
+                 d.titleName = $('#position').val();
+            }
+        },
         "columns": [
             { "data": "employerName" },
             { "data": "jobInfoJobTitle" },
@@ -225,117 +118,59 @@ function getJsonObjLength(jsonObj) {
         }
         return Length;
 }
-
+function isAllEmpty(){
+    return $("#employerName").val().length + $("#position").val().length + 
+            $("#state").val().length + $("#city").val().length == 0
+}
 function employerChange(){
-    var position = $("#position").val();
-       var city = $("#city").val();
-       var state = $("#state").val();
-       if(position.length===0&&city.length===0&&state.length===0){
-            console.log("first query");
-            updateByEmployer($("#employerName").val());
-       }else{
-           table
-                   .columns(0)
-                   .search("^" + $("#employerName").val() + "$")
-                   .draw();
-       }
-       
-       $("#employerName").css({"color":"#337ab7"});
-       var value = $("#employerName").val();
-       console.log(value.length);
-       if(position.length===0&&city.length===0&&state.length===0&&value.length===0){
-          updateByCity(iniCityName);
-       }
+   update();
+   $("#employerName").css({"color":"#337ab7"});
 }
 function positionChange(){
-        var employer = $("#employerName").val();
-        var city = $("#city").val();
-        var state = $("#state").val();
-        if(employer.length===0&&city.length===0&&state.length===0){
-            console.log("first query");
-            updateByPosition($("#position").val());
-        }else{
-            console.log("position search");
-            table
-                   .columns(1)
-                   .search($("#position").val())
-                   .draw();
-       }
-       $("#position").css({"color":"#337ab7"});
-       var value = $("#position").val();
-        if(position.length===0&&city.length===0&&state.length===0&&value.length===0){
-            updateByCity("Pittsburgh");
-       }
+   update();
+   $("#position").css({"color":"#337ab7"});
 }
 function cityChange(){
-        var employer = $("#employerName").val();
-        var position = $("#position").val();
-        var state = $("#state").val();
-        if(employer.length===0&&position.length===0&&state.length===0){
-            console.log("first query");
-            updateByCity($("#city").val());
-        }else{
-          table
-                   .columns(2)
-                   .search($("#city").val())
-                   .draw();
-       }
-       $("#city").css({"color":"#337ab7"});
-        var value = $("#city").val();
-        if(position.length===0&&city.length===0&&state.length===0&&value.length===0){
-            updateByCity(iniCityName);
-        }
+    update();
+    $("#city").css({"color":"#337ab7"});
 }
 
 function stateChange(){
-        var employer = $("#employerName").val();
-        var position = $("#position").val();
-        var city = $("#city").val();
-        if(employer.length===0&&position.length===0&&city.length===0){
-            console.log("first query");
-            updateByState($("#state").val());
-        }else{
-          table
-                   .columns(3)
-                   .search($("#state").val())
-                   .draw();
-       }
-       $("#state").css({"color":"#337ab7"});
-        var value = $("#state").val();
-        if(position.length===0&&city.length===0&&employer.length===0&&value.length===0){
-            updateByCity("Pittsburgh");
-       }
+    update();
+    $("#state").css({"color":"#337ab7"});
 }
 
 function changeMonitor(){
-    $("#employer").change(function() {
-        if($("#employer").val().length == 0){
-            console.log("employer is empty");
-            table.columns(0).search("")
-                   .draw();
-        }
+    $("#employerName").keyup(function() {
+       if(isAllEmpty())
+           return;
+       if($("#employerName").val().length == 0){
+           update();
+       }
     });
         
-    $("#position").change(function() {
-        if($("#position").val().length == 0){
-            table.columns(1).search("")
-                   .draw();
-        }
+     $("#position").keyup(function() {
+        if(isAllEmpty())
+           return;
+       if($("#position").val().length == 0){
+           update();
+       }
     });
     
-    $("#city").change(function() {
-        if($("#city").val().length == 0){
-            
-            table.columns(2).search("")
-                   .draw();
-        }
+     $("#city").keyup(function() {
+       if(isAllEmpty())
+           return;
+       if($("#city").val().length == 0){
+           update();
+       }
     });
-
-    $("#state").change(function() {
-        if($("#state").val().length == 0){
-            table.columns(3).search("")
-                   .draw();
-        }
+    
+     $("#state").keyup(function() {
+       if(isAllEmpty())
+           return;
+       if($("#state").val().length == 0){
+           update();
+       }
     });
 }
 function backToInit(position, city, state, employer){
