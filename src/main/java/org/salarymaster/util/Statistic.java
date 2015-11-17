@@ -16,7 +16,7 @@ import org.salarymaster.model.Salary;
 public class Statistic {
 
     //Get Min, Max, and Median value of Salary
-    public Double[] getStatisticInfo(List<Salary> salary){
+    public Double[]      getStatisticInfo(List<Salary> salary){
         Double[] res = new Double[3];
     	Collections.sort(salary, null);
     	Double min = salary.get(0).getWageOfferFrom9089();
