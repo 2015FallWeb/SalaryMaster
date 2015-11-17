@@ -26,7 +26,7 @@ public class Statistic {
     	Double min = salary.get(salary.size()-1).getWageOfferFrom9089();
     	Double median;
         if(salary.size()%2 == 0)
-            median =  0.5*(salary.get(salary.size()/2).getWageOfferFrom9089() + salary.get(salary.size()/2+1).getWageOfferFrom9089());
+            median =  0.5*(salary.get(salary.size()/2-1).getWageOfferFrom9089() + salary.get(salary.size()/2).getWageOfferFrom9089());
         else
             median = salary.get(salary.size()/2).getWageOfferFrom9089();
         res.setSalaryMin(min);
