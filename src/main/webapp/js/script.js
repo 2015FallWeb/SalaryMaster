@@ -57,7 +57,6 @@ function initTable(url){
         "bFilter": false, 
         "pageLength": 50,
         "serverSide": true,
-        "bProcessing": true,
         "ajax": {
             url: url,    //specify ajax url
             data: function ( d ) {
@@ -65,7 +64,12 @@ function initTable(url){
                  d.cityName = $('#city').val();
                  d.stateName = $('#state').val();
                  d.titleName = $('#position').val();
-            }
+            },
+             "dataSrc": function ( json ) {
+                //Make your callback here.
+                //alert("Done!");
+                return json.data;
+            } 
         },
         "columns": [
             { "data": "employerName" },
