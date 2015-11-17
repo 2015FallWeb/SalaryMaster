@@ -28,11 +28,9 @@ public class StatController {
     private SalaryDAO salaryDao;
     
     @RequestMapping("/statistics/{employerName}")
-    public Stat getStatByEmployer(@PathVariable(value="employerName") String employerName,
-            @RequestParam("start") int start, @RequestParam("length") int length, 
-            @RequestParam("draw") int draw, @RequestParam("order[0][column]")int orderCol, 
-            @RequestParam("order[0][dir]")String orderDir) {
-        List<Salary> salaryList = salaryDao.getSalaryByEmployer(employerName, start, length, orderCol, orderDir);
+    public Stat getStatByEmployer(@PathVariable(value="employerName") String employerName){
+        List<Salary> salaryList = salaryDao.getSalary(employerName);
+//        System.out.println("salary stat: s" + salaryList.size());
         return Statistic.getStatisticInfo(salaryList);  
     }
 }
