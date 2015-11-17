@@ -137,8 +137,8 @@ public class SalaryDAOMongo implements SalaryDAO{
     }
     
     private boolean updateJsonFor(String name, String colName){
+        log.info("update json for " + name);
         AggregateIterable<Document> iterable = db.getCollection(Parameter.COLLECTION_SALARY).aggregate(asList(
-                
         new Document("$group", new Document("_id", "$" + colName).append("total", new Document("$sum", 1))), 
                 new Document("$sort", new Document("total", -1))
         ));

@@ -9,21 +9,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
-import javax.annotation.Resource;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 import org.jboss.logging.Logger;
 import org.salarymaster.DAO.SalaryDAO;
 import org.salarymaster.model.Salary;
 import org.salarymaster.model.SalaryTable;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+
 
 
 
