@@ -20,7 +20,7 @@ public class Statistic {
     public static Stat getStatisticInfo(List<Salary> salary){
 //        Double[] res = new Double[3];
         Stat res = new Stat();
-    	Collections.sort(salary, null);
+    	Collections.sort(salary,null);
     	Double min = salary.get(0).getWageOfferFrom9089();
     	Double max = salary.get(salary.size()-1).getWageOfferFrom9089();
     	Double median;
