@@ -22,7 +22,7 @@ var states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California',
 var employers = [];
 var cities = [];
 var positions = [];
-
+var isFirst = true;
 function update(){
     var url = "salary/search";
     table.ajax.url(url).load();
@@ -43,14 +43,16 @@ function updateByCity(city){
 }
 
 function updateByState(state){
-    url = "salary/state/" + state;
+    var url = "salary/state/" + state;
     table.ajax.url(url).load();
+}
+function enableClick(key, value){
+    var result = "<a href='#' onclick=\"inputUpdate(\'" + key + "\', \'" + value + "\')\">" + value + "</a>";
+    return result;
 }
 function initTable(url){
     table = $('#entry').DataTable({
-//        "search": {
-//            "regex": true
-//        },
+        "bProcessing": true,
         "lengthMenu": [50, 100],
         "bFilter": false, 
         "pageLength": 50,
@@ -77,18 +79,36 @@ function initTable(url){
         "order": [[ 5, "desc" ]], // order by date
         "columnDefs": [
             {
-                // The `data` parameter refers to the data for the cell (defined by the
-                // `data` option, which defaults to the column being worked with, in
-                // this case `data: 0`.
+                "render": function ( data, type, row ) {
+                    return enableClick("employerName", data);
+                },
+                "targets": 0
+            },
+            {
+                "render": function ( data, type, row ) {
+                    return enableClick("position", data);
+                },
+                "targets": 1
+            },
+            {
+                "render": function ( data, type, row ) {
+                    return enableClick("city", data);
+                },
+                "targets": 2
+            },
+            {
+                "render": function ( data, type, row ) {
+                    return enableClick("state", data);
+                },
+                "targets": 3
+            },
+            {
                 "render": function ( data, type, row ) {
                     return "$" +data.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
                 },
                 "targets": 4
             },
             {
-                // The `data` parameter refers to the data for the cell (defined by the
-                // `data` option, which defaults to the column being worked with, in
-                // this case `data: 0`.
                 "render": function ( data, type, row ) {
                     return data.split(" ")[0];
                 },
@@ -97,6 +117,18 @@ function initTable(url){
             
         ]
     });
+    
+    table.on( 'processing.dt', function ( e, settings, processing ) {
+       // $('#processing-modal').css( 'display', processing ? 'block' : 'none' );
+        if(processing ){
+            isFirst = false;
+            $( '#processing-modal' ).modal( { show: true} );
+        }else if(!isFirst){
+            
+            $( '#processing-modal' ).modal( 'toggle' );
+        }
+        
+    } );
 }
 function iniByCity(iniCityName){
     initTable("salary/city/" + iniCityName);
@@ -120,7 +152,7 @@ function getJsonObjLength(jsonObj) {
 }
 function isAllEmpty(){
     return $("#employerName").val().length + $("#position").val().length + 
-            $("#state").val().length + $("#city").val().length == 0
+            $("#state").val().length + $("#city").val().length == 0;
 }
 function employerChange(){
    update();
@@ -138,6 +170,11 @@ function cityChange(){
 function stateChange(){
     update();
     $("#state").css({"color":"#337ab7"});
+}
+
+function inputUpdate(key, value){
+    $("#" + key).val(value);
+    update();
 }
 
 function changeMonitor(){
@@ -178,7 +215,9 @@ function backToInit(position, city, state, employer){
            init();
        };
 }
-
+function cancelAjax(){
+     $.fn.DataTable.settings[0].jqXHR.abort();
+}
 function initSuggestion(){
      $.getJSON("json/employer.json",function(data){
         $.each(data.employer, function( index, value ) {

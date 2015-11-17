@@ -10,7 +10,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
         
-                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" >
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" >
         <!-- Optional theme -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" >
         <!-- DataTables CSS -->
@@ -18,7 +18,8 @@
         <!-- GOOGLE FONTS-->
         <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Tangerine">
         <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700&subset=latin,vietnamese,cyrillic,latin-ext,greek-ext,cyrillic-ext,greek' rel='stylesheet' type='text/css'>
-
+        
+        <link rel="stylesheet" type="text/css" href="css/style.css">
 
         <!-- jQuery -->
         <script type="text/javascript" charset="utf8" src="//code.jquery.com/jquery-1.10.2.min.js"></script>
@@ -42,6 +43,19 @@
     </head>
     <body>
 
+<!-- Static Modal -->
+<div class="modal modal-static fade" id="processing-modal" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="text-center">
+                    <img src="http://www.travislayne.com/images/loading.gif" class="icon" />
+                    <h4>Processing... <button type="button" class="close" style="float: none;" data-dismiss="modal" aria-hidden="true" onclick="cancelAjax()">×</button></h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
         <div id="wrapper" style="position:relative;height: 700px;">
             <div class="container header">
                 <nav class="navbar nav-pills" style="height:30px">
@@ -147,7 +161,7 @@
 
                     </div>
                 </div>
-
+                
                 <div id="table_wrapper"> 
                     <table id="entry" class="display" cellspacing="0" width="100%">
                         <thead>
@@ -167,5 +181,6 @@
 
 
         </div>
+
     </body>
 </html>
