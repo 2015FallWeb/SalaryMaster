@@ -158,10 +158,12 @@ function isAllEmpty(){
     return $("#employerName").val().length + $("#position").val().length + 
             $("#state").val().length + $("#city").val().length == 0;
 }
+
 function employerChange(){
    update();
    $("#employerName").css({"color":"#337ab7"});
 }
+
 function positionChange(){
    update();
    $("#position").css({"color":"#337ab7"});
