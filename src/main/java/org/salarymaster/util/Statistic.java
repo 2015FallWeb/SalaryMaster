@@ -22,8 +22,8 @@ public class Statistic {
 //        Double[] res = new Double[3];
         Stat res = new Stat();
     	Collections.sort(salary,null);
-    	Double min = salary.get(0).getWageOfferFrom9089();
-    	Double max = salary.get(salary.size()-1).getWageOfferFrom9089();
+    	Double max = salary.get(0).getWageOfferFrom9089();
+    	Double min = salary.get(salary.size()-1).getWageOfferFrom9089();
     	Double median;
         if(salary.size()%2 == 0)
             median =  0.5*(salary.get(salary.size()/2).getWageOfferFrom9089() + salary.get(salary.size()/2+1).getWageOfferFrom9089());

@@ -31,6 +31,8 @@ public class StatController {
     public Stat getStatByEmployer(@PathVariable(value="employerName") String employerName){
         List<Salary> salaryList = salaryDao.getSalary(employerName);
 //        System.out.println("salary stat: s" + salaryList.size());
-        return Statistic.getStatisticInfo(salaryList);  
+        if(salaryList != null && salaryList.size()>0)
+            return Statistic.getStatisticInfo(salaryList); 
+        return null;
     }
 }
