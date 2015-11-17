@@ -8,6 +8,7 @@ package org.salarymaster.util;
 import java.util.Collections;
 import java.util.List;
 import org.salarymaster.model.Salary;
+import org.salarymaster.model.Stat;
 
 /**
  *
@@ -16,8 +17,9 @@ import org.salarymaster.model.Salary;
 public class Statistic {
 
     //Get Min, Max, and Median value of Salary
-    public Double[] getStatisticInfo(List<Salary> salary){
-        Double[] res = new Double[3];
+    public static Stat getStatisticInfo(List<Salary> salary){
+//        Double[] res = new Double[3];
+        Stat res = new Stat();
     	Collections.sort(salary, null);
     	Double min = salary.get(0).getWageOfferFrom9089();
     	Double max = salary.get(salary.size()-1).getWageOfferFrom9089();
@@ -26,9 +28,9 @@ public class Statistic {
             median =  0.5*(salary.get(salary.size()/2).getWageOfferFrom9089() + salary.get(salary.size()/2+1).getWageOfferFrom9089());
         else
             median = salary.get(salary.size()/2).getWageOfferFrom9089();
-        res[0] = min;
-        res[1] = max;
-        res[2] = median;
+        res.setSalaryMin(min);
+        res.setSalaryMax(max);
+        res.setSalaryMedian(median);
         return res;
     }  
 }
