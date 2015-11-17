@@ -17,6 +17,7 @@ import org.salarymaster.model.Stat;
 public class Statistic {
 
     //Get Min, Max, and Median value of Salary
+
     public static Stat getStatisticInfo(List<Salary> salary){
 //        Double[] res = new Double[3];
         Stat res = new Stat();
