@@ -13,7 +13,17 @@
       transactionalMode="off">
         <persistence strategy="localTempSwap"/>
     </cache>
-    
+    <cache name="salaryByName" 
+      maxEntriesLocalHeap="5000"
+      maxEntriesLocalDisk="1000" 
+      eternal="false" 
+     diskPersistent="false" 
+      timeToIdleSeconds="200" 
+      timeToLiveSeconds="500" 
+      memoryStoreEvictionPolicy="LFU" 
+      transactionalMode="off">
+        
+    </cache>
     <cache name="salaryCount" 
       maxEntriesLocalHeap="5000"
       maxEntriesLocalDisk="1000" 

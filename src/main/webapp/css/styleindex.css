@@ -107,7 +107,7 @@ html {overflow-y: scroll;}
 
 #inputForm{
 	position: absolute;
-	width: 80%;
+	/* width: 80%; */
 	height: 100%;
 	margin-left: 10%;
 	margin-top:10px; 

@@ -9,7 +9,7 @@ package org.salarymaster.model;
  *
  * @author shaofanzhang
  */
-public class StatTitle {
+public class StatTitle implements Comparable<StatTitle> {
     private String jobTitle;
     private Stat stat;
     private Integer count;
@@ -53,5 +53,10 @@ public class StatTitle {
      */
     public void setCount(Integer count) {
         this.count = count;
+    }
+
+    @Override
+    public int compareTo(StatTitle o) {
+        return o.getCount().compareTo(this.getCount());
     }
 }

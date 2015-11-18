@@ -82,6 +82,13 @@ function initTable(url){
         
         "order": [[ 5, "desc" ]], // order by date
         "columnDefs": [
+            { "width": "23%", "targets": 0 },
+            { "width": "35%", "targets": 1 },
+            { "width": "10%", "targets": 2 },
+            { "width": "10%", "targets": 3 },
+            { "width": "10%", "targets": 4 },
+            { "width": "12%", "targets": 5 },
+ 
             {
                 "render": function ( data, type, row ) {
                     return enableClick("employerName", data);
@@ -224,6 +231,7 @@ function backToInit(position, city, state, employer){
 function cancelAjax(){
      $.fn.DataTable.settings[0].jqXHR.abort();
 }
+
 function initSuggestion(){
      $.getJSON("json/employer.json",function(data){
         $.each(data.employer, function( index, value ) {

@@ -42,7 +42,6 @@ public class SalaryDAOMongo implements SalaryDAO{
     private final static String[] colArray = {"employer_name", "job_info_job_title", "job_info_work_city", 
         "job_info_work_state", "wage_offer_from_9089", "decision_date"};
     MongoDatabase db = null;
-    Jedis jd = null;
     private final static String EMPLOYER = "employer_name";
     private final static String TITLE = "job_info_job_title";
     private final static String CITY = "job_info_work_city";
@@ -54,10 +53,9 @@ public class SalaryDAOMongo implements SalaryDAO{
     
     public SalaryDAOMongo(){
         db = Connection.getDB();
-        jd = Connection.getJD();
     }
     @Override
-    @Cacheable("salary")
+    @Cacheable("salaryByName")
     public List<Salary> getSalary(String employerName) {
         FindIterable<Document> iterable = db.getCollection(Parameter.COLLECTION_SALARY).find(
                 new BasicDBObject(EMPLOYER, employerName));
@@ -149,13 +147,9 @@ public class SalaryDAOMongo implements SalaryDAO{
 
     @Override
     public String getSalaryJsonByTitle(String titleName) {
-        String result = jd.get(titleName);
-        
-        if(result == null){
-            log.info("result from redis failed");
-            Gson gson = new Gson();
-            result = gson.toJson(getSalaryByTitle(titleName));
-        }
+
+        Gson gson = new Gson();
+        String result = gson.toJson(getSalaryByTitle(titleName));
         
         return result;
     }
@@ -220,6 +214,7 @@ public class SalaryDAOMongo implements SalaryDAO{
     }
 
     @Override
+    @Cacheable("salary")
     public List<Salary> getSalary(String employerName, String stateName, String cityName, String titleName, int start, int length, int orderCol, String orderDir) {
         
         BasicDBObject query = new BasicDBObject();
@@ -241,6 +236,7 @@ public class SalaryDAOMongo implements SalaryDAO{
     }
     
     @Override
+    @Cacheable("salaryCount")
     public int getSalaryCount(String employerName, String stateName, String cityName, String titleName) {
         BasicDBObject query = new BasicDBObject();
         if(employerName.length() != 0)

@@ -7,6 +7,7 @@ package org.salarymaster.controller;
 
 import static java.lang.Math.log;
 import java.util.*;
+import org.jboss.logging.Logger;
 import org.salarymaster.DAO.SalaryDAO;
 import org.salarymaster.model.Salary;
 import org.salarymaster.model.SalaryTable;
@@ -28,15 +29,19 @@ public class StatController {
     @Autowired
     private SalaryDAO salaryDao;
     
-    @RequestMapping("/statistics/{employerName}")
+    private final static Logger log = Logger.getLogger(StatController.class);
+    @RequestMapping("/statistics/{employerName:.+}")
     public Stat getStatByEmployer(@PathVariable(value="employerName") String employerName){
+        log.info("Stat by employer: " + employerName);
         List<Salary> salaryList = salaryDao.getSalary(employerName);
+        log.info("SalaryList size: " + salaryList.size());
         if(salaryList != null && salaryList.size()>0)
             return Statistic.getStatisticInfo(salaryList); 
+
         return null;
     }
     
-    @RequestMapping("/titleStatistics/{employerName}")
+    @RequestMapping("/titleStatistics/{employerName:.+}")
     public List<StatTitle> getStatByTitleByEmployer(@PathVariable(value="employerName") String employerName){
         List<Salary> salaryList = salaryDao.getSalary(employerName);
         Map<String, List<Salary>> titleMap = new HashMap<String, List<Salary>>();
@@ -55,7 +60,6 @@ public class StatController {
         for (Map.Entry<String, List<Salary>> entry : titleMap.entrySet()) {   
             String title = entry.getKey();
             List<Salary> salaryByTitle = entry.getValue();
-            System.out.println("salarylist size: "+salaryByTitle.size());
             if(salaryByTitle != null && salaryByTitle.size()>0){
                 StatTitle st = new StatTitle();
                 st.setCount(salaryByTitle.size());
@@ -67,6 +71,7 @@ public class StatController {
             }
        
         }
+        Collections.sort(res);
          return res;
     }       
 }

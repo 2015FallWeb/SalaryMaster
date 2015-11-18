@@ -18,7 +18,7 @@ public class Statistic {
 
     //Get Min, Max, and Median value of Salary
 
-    public static Stat getStatisticInfo(List<Salary> salary){
+    public static Stat getStatisticInfo(final List<Salary> salary){
 //        Double[] res = new Double[3];
         Stat res = new Stat();
     	Collections.sort(salary,null);
