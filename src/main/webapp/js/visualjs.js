@@ -5,51 +5,14 @@
  */
 var employer = [];
 console.log("abc");
-var company ="";
+var company ="University Of Pittsburgh";
+var table = null;
+var min = "";
+var max = "";
+var med = "";
 
-function searchResult(){
-   var companyname = $("#company").val();
-   summary(companyname);
-   pieChart();
-   titleTable(companyname);
-   map();
-   //$(".allgraphs").show(200);
-};
-
-
-function summary(company){
-    var url = "statistics/" +company ;
-     $.ajax({
-         url:url,
-         type:"GET",
-     
-         dataType:"Json",
-         success:function(data){
-             var min = data.salaryMin;
-             var max = data.salaryMax;
-             var med = data.salaryMedian;
-             console.log(min,max,med);
-//           
-             $("#maxSalary").text("$"+max+".00");
-             $("#minSalary").text("$"+min+".00");
-             $("#medSalary").text("$"+med+".00");
-             $("#summary").show(200);
-             
-         },
-         error:function(data){
-             alert("data loading failed");
-         }
-     });
-     
-     
-    
-    
-};
-function pieChart(){
-    
-};
-function titleTable(company){
-    url="titleStatistics/"+company;
+function iniCompanyTable(){
+     url="titleStatistics/"+company;
     console.log("----"+company+"----");
     table = $("#companyEntry").DataTable({
         "ServerSide": true,
@@ -73,23 +36,144 @@ function titleTable(company){
         "order": [[ 4, "desc" ]]
        
     });
+    $("#companyTable").hide();
+     //console.log("00000000");
     
-     console.log("00000000");
+}
+function searchResult(){
+   var companyname = $("#company").val();
+   summary(companyname);
+   pieChart();
+   titleTable(companyname);
+   map();
+   //$(".allgraphs").show(200);
+};
+
+
+function summary(companyname){
+    //alert(min+"!!");
+    if(min!== ""){
+        var url = "statistics/" +companyname ;
+     $.ajax({
+         url:url,
+         type:"GET",
+     
+         dataType:"Json",
+         success:function(data){
+             min = data.salaryMin;
+             max = data.salaryMax;
+             med = data.salaryMedian;
+             console.log(min,max,med);
+//           
+             $("#maxSalary").text("$"+max+".00");
+             $("#minSalary").text("$"+min+".00");
+             $("#medSalary").text("$"+med+".00");
+             $("#summary").show(200);
+             
+         },
+         error:function(data){
+             alert("data loading failed");
+         }
+     });
+     
+    }
+    else{
+        console.log(min,max,med+"00");
+        var url = "statistics/" +company ;
+            $.ajax({
+        url:url,
+        type:"GET",
+     
+        dataType:"Json",
+         success:function(data){
+             min = data.salaryMin;
+             max = data.salaryMax;
+             med = data.salaryMedian;
+             console.log(min,max,med);
+//           
+             $("#maxSalary").text("$"+max+".00");
+             $("#minSalary").text("$"+min+".00");
+             $("#medSalary").text("$"+med+".00");
+             $("#summary").show(200);
+             
+         },
+         error:function(data){
+             alert("data loading failed");
+         }
+     });
+    } 
+};
+function pieChart(){
+    
+};
+function titleTable(company){
+    url="titleStatistics/"+company;
+    table.ajax.url(url).load();
+    $("#companyTable").show(200);
     
 };
 function map(){
     
 };
 
-function research(){
+function reSearchAction(){
  
     $("#company").keyup(function() {
-       if($("#company").val().length === 0){
-           update();
-       };
+        $("#companyTable").hide();
+        $("#summary").hide();
     });
         
 }
+
+function updateGraphs(){
+    
+    var companyname = $("#company").val();
+    console.log("ssss"+companyname);
+    $("#company").keydown(function(){
+        console.log("change"+companyname);
+         if(companyname.length !== 0){
+        updateSummary(companyname);
+        updatePie();
+        updateTable(companyname);
+        updateMap();
+    }
+    });
+   
+}
+
+function updateSummary(company){
+     console.log("update graph1");
+     var url = "statistics/" +company ;
+     $.ajax({
+         url:url,
+         type:"GET",
+     
+         dataType:"Json",
+         success:function(data){
+             var min = data.salaryMin;
+             var max = data.salaryMax;
+             var med = data.salaryMedian;
+             console.log(min,max,med);
+//           
+             $("#maxSalary").text("$"+max+".00");
+             $("#minSalary").text("$"+min+".00");
+             $("#medSalary").text("$"+med+".00");
+        
+             
+         },
+         error:function(data){
+             alert("data loading failed");
+         }
+     });
+    
+}
+
+function updateTable(company){
+    console.log("update table");
+    var url="titleStatistics/"+company;
+    table.ajax.url(url).load();
+}
+
 function companySuggestion(){
  
   $.getJSON("json/employer.json",function(data){
@@ -123,8 +207,9 @@ function companySuggestion(){
 $(document).ready(function() {
    // $(".allgraphs").hide();
    $("#summary").hide();
+   iniCompanyTable();
     // $("#maxSalary").text(123444);
-    companySuggestion();
-    
+   companySuggestion();
+    reSearchAction();
   
 } );
