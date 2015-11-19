@@ -10,6 +10,7 @@ var table = null;
 var min = "";
 var max = "";
 var med = "";
+var First = true ;
 
 function iniCompanyTable(){
      url="titleStatistics/"+company;
@@ -36,6 +37,17 @@ function iniCompanyTable(){
         "order": [[ 4, "desc" ]]
        
     });
+      table.on( 'processing.dt', function ( e, settings, processing ) {
+       // $('#processing-modal').css( 'display', processing ? 'block' : 'none' );
+        if(processing ){
+            First = false;
+            $( '#processing-modal' ).modal( { show: true} );
+        }else if(!First){
+            
+            $( '#processing-modal' ).modal( 'toggle' );
+        }
+        
+    } );
     $("#companyTable").hide();
      //console.log("00000000");
     
