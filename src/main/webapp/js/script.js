@@ -161,6 +161,7 @@ function getJsonObjLength(jsonObj) {
         }
         return Length;
 }
+
 function isAllEmpty(){
     return $("#employerName").val().length + $("#position").val().length + 
             $("#state").val().length + $("#city").val().length == 0;
