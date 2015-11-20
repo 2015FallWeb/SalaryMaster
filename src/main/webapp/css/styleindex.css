@@ -183,7 +183,7 @@ html {overflow-y: scroll;}
  color:#525C89;
  margin-top: 105px;
  border-width: 7px;
- //z-index: 2;
+/* //z-index: 2;*/
 }
 
 hr {}
@@ -232,7 +232,7 @@ hr {}
     color: #fff;
 }
 .resultText{
-    //margin-left: ;
+    /*//margin-left: ;*/
     margin-top:-47px;
     font-family: open sans;
     font-size: 30px;
