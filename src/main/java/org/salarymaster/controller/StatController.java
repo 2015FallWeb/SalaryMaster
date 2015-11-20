@@ -12,6 +12,7 @@ import org.salarymaster.DAO.SalaryDAO;
 import org.salarymaster.model.Salary;
 import org.salarymaster.model.SalaryTable;
 import org.salarymaster.model.Stat;
+import org.salarymaster.model.StatLocation;
 import org.salarymaster.model.StatTitle;
 import org.salarymaster.util.Statistic;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,6 +73,38 @@ public class StatController {
        
         }
         Collections.sort(res);
-         return res;
-    }       
+        return res;
+    } 
+    
+    
+    @RequestMapping("/statistics/map/{employerName:.+}")
+    public List<StatLocation> getMap(@PathVariable(value="employerName") String employerName){
+        List<Salary> salaryList = salaryDao.getSalary(employerName);
+        System.out.println("salary size" + salaryList.size());
+        
+        Map<String, Integer> stateMap = new HashMap<String, Integer>();
+        List<StatLocation> res = new ArrayList<StatLocation>();
+        for(Salary s: salaryList){
+            String st = s.getJobInfoWorkState();
+            if(stateMap.containsKey(st)){      
+                int temp = stateMap.get(st)+1;
+                stateMap.put(st,temp);
+            }else{
+                stateMap.put(st, 1);
+            }   
+        }
+        System.out.println("map size" + stateMap.size());
+        for (Map.Entry<String, Integer> entry : stateMap.entrySet()) {  
+            String state = entry.getKey();
+            Integer count = entry.getValue();
+                StatLocation sl = new StatLocation();
+                sl.setState(state);
+                sl.setNumOfEmployee(count);
+           
+                res.add(sl);
+            }
+
+
+        return res;
+    }
 }
