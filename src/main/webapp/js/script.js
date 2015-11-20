@@ -327,6 +327,33 @@ function initSuggestion(){
 
 
 }
+
+function backToTop(){
+    $("#backTop").on("click",function(){
+        move();
+        
+    });
+    
+    $(window).on('scroll',function(){
+    	checkPosition($(window).height());
+    });
+
+    function move(){
+        console.log("aaaaa");
+    	$("html,body").animate({
+    		scrollTop:0
+    	},800);
+    }
+    function checkPosition(pos){
+    	if($(window).scrollTop()>pos){
+    		$("#backTop").fadeIn();
+
+    	}else{
+    		$("#backTop").fadeOut();
+    	}
+    }
+}
+
 $(document).ready(function() {
        var position = $("#position").val();
        var city = $("#city").val();
@@ -335,4 +362,5 @@ $(document).ready(function() {
        backToInit(position, city, state, employer);
        initSuggestion();
        changeMonitor();
+       backToTop();
 } );

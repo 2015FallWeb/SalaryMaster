@@ -1,0 +1,64 @@
+.toolbar {
+  position: fixed;
+  left: 90%;
+  bottom: 5px; }
+
+.toolbar-item {
+  z-index: 2;
+  position: relative;
+  display: block;
+  width: 52px;
+  height: 52px;
+  background-image: url(../images/toolbar.png);
+  background-repeat: no-repeat;
+  margin-top: 1px;
+  transition: background-position 1s;
+  /*css 3 the transform of the background position*/ }
+  .toolbar-item:hover .toolbar-layer {
+    opacity: 1;
+    transform: scale(1); }
+
+.toolbar-item-weixin {
+  background-position: 0 -798px; }
+  .toolbar-item-weixin:hover {
+    background-position: 0 -860px; }
+  .toolbar-item-weixin .toolbar-layer {
+    height: 212px;
+    background-position: 0 0; }
+
+.toolbar-item-feedback {
+  background-position: 0 -426px; }
+  .toolbar-item-feedback:hover {
+    background-position: 0 -488px; }
+
+.toolbar-item-app {
+  background-position: 0 -550px; }
+  .toolbar-item-app:hover {
+    background-position: 0 -612px; }
+  .toolbar-item-app .toolbar-layer {
+    height: 194px;
+    background-position: 0 -222px; }
+
+.toolbar-item-top {
+  background-position: 0 -674px; }
+  .toolbar-item-top:hover {
+    background-position: 0 -736px; }
+
+.toolbar-layer {
+  position: absolute;
+  right: 46px;
+  /*"-" we should have blank place beside the operator*/
+  bottom: -10px;
+  /*because the picture has shadow*/
+  width: 172px;
+  background-image: url(../img/toolbar.png);
+  background-repeat: no-repeat;
+  opacity: 0;
+  /*0 is totally transparent*/
+  transform-origin: 95% 95%;
+  /* transformoriginal position :right bottom*/
+  transform: scale(0.01);
+  /*css3 ->1/100 of the piciture,we can't see it*/
+  transition: all 1s; }
+
+/*# sourceMappingURL=index.css.map */
