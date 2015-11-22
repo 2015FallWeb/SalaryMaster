@@ -270,7 +270,7 @@ hr {}
 .tTable{
     position: absolute;
     width:90%;
-   // background-color:#FB7F5A;
+   /*// background-color:#FB7F5A;*/
     margin-top:300px;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
@@ -357,4 +357,7 @@ should optimize our sass*/
   -o-transition: all 1s;
   transition: all 1s; }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> d35485edab57fd52ff00bfbb5f3529b32f7ce056

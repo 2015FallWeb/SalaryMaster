@@ -17,23 +17,30 @@ import org.salarymaster.model.Stat;
 public class Statistic {
 
     //Get Min, Max, and Median value of Salary
-
-    public static Stat getStatisticInfo(final List<Salary> salary){
+    public static Stat getStatisticInfo(final List<Salary> salary) {
 //        Double[] res = new Double[3];
         Stat res = new Stat();
-    	Collections.sort(salary,null);
-    	Double max = salary.get(0).getWageOfferFrom9089();
-    	Double min = salary.get(salary.size()-1).getWageOfferFrom9089();
-    	Double median;
-        if(salary.size()%2 == 0)
-            median =  0.5*(salary.get(salary.size()/2-1).getWageOfferFrom9089() + salary.get(salary.size()/2).getWageOfferFrom9089());
-        else
-            median = salary.get(salary.size()/2).getWageOfferFrom9089();
+        Collections.sort(salary, null);
+        Double max = salary.get(0).getWageOfferFrom9089();
+        Double min = null;
+        for (int i = salary.size() - 1; i > -1; i--) {
+            if (salary.get(i).getWageOfferFrom9089() >= 1000) {
+                min = salary.get(i).getWageOfferFrom9089();
+                break;
+            }  
+        }
+
+        Double median;
+        if (salary.size() % 2 == 0) {
+            median = 0.5 * (salary.get(salary.size() / 2 - 1).getWageOfferFrom9089() + salary.get(salary.size() / 2).getWageOfferFrom9089());
+        } else {
+            median = salary.get(salary.size() / 2).getWageOfferFrom9089();
+        }
         res.setSalaryMin(min);
         res.setSalaryMax(max);
         res.setSalaryMedian(median);
         return res;
-    }  
+    }
 }
 
     //call:
