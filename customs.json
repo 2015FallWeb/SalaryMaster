@@ -1,8 +1,14 @@
 {
-    "elements": {},
+    "elements": {
+        "a": {},
+        "span": {}
+    },
     "attributes": {
         "charset": {
             "context": "meta"
+        },
+        "aria-hidden": {
+            "context": "div"
         },
         "placeholder": {
             "context": "input"
