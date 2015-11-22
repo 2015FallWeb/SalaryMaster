@@ -52,9 +52,20 @@ html {overflow-y: scroll;}
 
 #aboutUsArea{
 	position: relative;
-	height: 150px;
+	height: 250px;
 }
+.mypanel1{
+    position: absolute;
+    margin-left: 2.5%;
+    width:85%;
+}
+.mypanel2{
+    position: absolute;
+    margin-left: 2.5%;
 
+    margin-top: 15%; 
+    width:85%;
+}
 #peoplerow{
 	position: absolute;
 	width: 60%;
@@ -346,4 +357,4 @@ should optimize our sass*/
   -o-transition: all 1s;
   transition: all 1s; }
 
-/*# sourceMappingURL=index.css.map */
+
