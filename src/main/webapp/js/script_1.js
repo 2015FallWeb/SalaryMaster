@@ -57,6 +57,7 @@ function initTable(url){
         "bFilter": false, 
         "pageLength": 50,
         "serverSide": true,
+        "bLengthChange": false,
         "ajax": {
             url: url,    //specify ajax url
             data: function ( d ) {

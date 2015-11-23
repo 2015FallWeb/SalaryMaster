@@ -15,7 +15,7 @@ html {overflow-y: scroll;}
 .clearfix:after {content: "."; display: block; height:0; clear:both; visibility: hidden;}
 .clearfix { *zoom:1; }
 body{
-
+    
 }
 #img_logo1{
 	position: relative;
@@ -47,4 +47,20 @@ body{
     position: fixed; /* keeps it on the bottom once in view */
     bottom: 18px; /* height of link element */
     right: 10px; /* padding from the left side of the window */
+}
+.form-control{
+    width:100%;
+    max-width:196px;
+    
+}
+.center_input{
+    text-align:center;
+}
+
+.small{
+    margin:15px;
+    width:30%;
+    float: none;
+    margin-left: auto;
+    margin-right: auto;
 }
