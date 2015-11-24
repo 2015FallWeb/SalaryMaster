@@ -48,7 +48,7 @@ function iniCompanyTable() {
 
     });
     $("#companyTable").hide();
-    //console.log("00000000");
+ 
 
 }
 function searchResult() {
@@ -57,7 +57,7 @@ function searchResult() {
     pieChart();
     titleTable(companyname);
     map();
-    //$(".allgraphs").show(200);
+   
 }
 ;
 
@@ -76,9 +76,9 @@ function summary(companyname) {
                 med = data.salaryMedian;
                 console.log(min, max, med);
 //           
-                $("#maxSalary").text("$" + max + ".00");
-                $("#minSalary").text("$" + min + ".00");
-                $("#medSalary").text("$" + med + ".00");
+                $("#maxSalary").text("$" + max  );
+                $("#minSalary").text("$" + min );
+                $("#medSalary").text("$" + med );
                 $("#summary").show(200);
 
             },
@@ -129,15 +129,15 @@ function map() {
 
 }
 ;
-
-function reSearchAction() {
-
-    $("#company").keyup(function () {
-        $("#companyTable").hide();
-        $("#summary").hide();
-    });
-
-}
+//
+//function reSearchAction() {
+//
+//    $("#company").keyup(function () {
+//        $("#companyTable").hide();
+//        $("#summary").hide();
+//    });
+//
+//}
 
 function updateGraphs() {
 
@@ -245,11 +245,11 @@ function back() {
 
 $(document).ready(function () {
     // $(".allgraphs").hide();
-    $("#summary").hide();
+//    $("#summary").hide();
     iniCompanyTable();
     // $("#maxSalary").text(123444);
     companySuggestion();
-    reSearchAction();
-    back()
+   // reSearchAction();
+    back();
 
 });

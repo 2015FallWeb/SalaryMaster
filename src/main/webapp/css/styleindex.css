@@ -184,79 +184,76 @@ html {overflow-y: scroll;}
 }
 
 .graph_wrapper{
-    position: absolute;
+
     background-color: #DFEAF0;
     width:100%;
     height:100%;
  
 }
 
-.graph_wrapper hr{
- color:#525C89;
- margin-top: 105px;
- border-width: 7px;
-/* //z-index: 2;*/
-}
 
-hr {}
 
 .visualsearch{
-    position: absolute;
+   
     background-color: #DFEAF0;
     width:100%;
-    height:15%;
+    height:100px;
 }
-
+.search{
+    margin-top:50px;
+    margin-left: 20px;
+}
 .allgraphs{
-    position: relative;
+  
     width:100%;
     background-color:#DFEAF0;
     
 }
 
 #graph12{
-    position: absolute;
     width:100%;
-    margin-top: 10%;
+    margin-top: 20px;
+    margin-left: 2%;
 }
 
 #summary{
-    position: absolute;
     height:230px;
-    width:500px;
-    margin-top: 10px;
-    margin-right: 5%;
-    margin-left:1%;
-    background-color:#525C89; 
-    padding:10px;
-    padding-left:30px;
+    width:46.55%;
+    float:left;
+    border:2px solid #525C89;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
-    border-radius: 10px;   
+    border-radius: 10px; 
+    
     
 }
 
 .showText{
-    margin-left:10% ;
-    margin-top:10px;
-    width:50%;
-    font-family: 'Open Sans Condensed', sans-serif;
-    font-size: 40px;
-    color: #fff;
-}
-.resultText{
-    /*//margin-left: ;*/
-    margin-top:-47px;
+    margin-top: 5%;
+    height: 30%;
+  
     font-family: open sans;
     font-size: 30px;
-    margin-left:55%;
-    color:#fff;
+    color: #23527c;
+}
+.resultText{
+    height: 30%;
+    margin-top: 5%;
+    font-family: open sans;
+    font-size: 30px;
+  
+    color:#23527c;
 }
 #pie{
-    position: absolute;
-    width:50%;
-    margin-left: 50%;
-    margin-top: 12%;
+    height:230px;
+ 
+    width:46.55%;
+    border:2px solid #525C89;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;   
+    float:left;
+    margin-left:2.5%;
 }
 
 
@@ -268,20 +265,42 @@ hr {}
 
 
 .tTable{
-    position: absolute;
-    width:90%;
-   /*// background-color:#FB7F5A;*/
-    margin-top:300px;
+    margin-top: 30px;
+    margin-left: 3.3%;
+    width:93.4%;
+    padding: 20px;
+    height:325px;
+    //margin-top:300px;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     border-radius: 10px; 
-    margin-top: 35%;
+
+    border:2px solid #525C89;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;   
 }
 
 .companyTable{
     position: absolute;
     width:80%;
+    padding: 10px;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*we use the same format in different place, we should 
 wrap those format up into an "function", that means,we
