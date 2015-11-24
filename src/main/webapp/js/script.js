@@ -42,7 +42,7 @@ var positionEngine = new Bloodhound({
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         limit: 5,
   remote: {
-    url: 'typehead/position?query=%QUERY',
+    url: 'typehead/title?query=%QUERY',
     wildcard: '%QUERY'
 
   }
