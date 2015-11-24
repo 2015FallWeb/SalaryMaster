@@ -23,6 +23,42 @@ var employers = [];
 var cities = [];
 var positions = [];
 var isFirst = true;
+
+
+var employerEngine = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.whitespace,
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        limit: 5,
+  remote: {
+    url: 'typehead/employer?query=%QUERY',
+    wildcard: '%QUERY'
+
+  }
+});
+
+
+var positionEngine = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.whitespace,
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        limit: 5,
+  remote: {
+    url: 'typehead/position?query=%QUERY',
+    wildcard: '%QUERY'
+
+  }
+});
+
+
+var cityEngine = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.whitespace,
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        limit: 5,
+  remote: {
+    url: 'typehead/city?query=%QUERY',
+    wildcard: '%QUERY'
+
+  }
+});
 function update(){
     var url = "salary/search";
     table.ajax.url(url).load();
@@ -233,41 +269,22 @@ function cancelAjax(){
      $.fn.DataTable.settings[0].jqXHR.abort();
 }
 
-function initSuggestion(){
-     $.getJSON("json/employer.json",function(data){
-        $.each(data.employer, function( index, value ) {
-            employers.push(value._id);
-        });
-            
-        employers = new Bloodhound({
-            datumTokenizer: Bloodhound.tokenizers.whitespace,
-            queryTokenizer: Bloodhound.tokenizers.whitespace,
-            local: employers
-        }); 
-        
-         $('#employerName').typeahead({
+function initSuggestion(){    
+    $('#employerName').typeahead({
             hint: true,
             highlight: true,
             minLength: 1
        },
        {
             name: 'employers',
-            source: employers
+            source: employerEngine
        }).on('typeahead:selected', function (obj, data) {
            employerChange();
        });
-    });
+   
     
   
-    $.getJSON("json/title.json",function(data){
-        $.each(data.title, function( index, value ) {
-            positions.push(value._id);
-        });
-        positions = new Bloodhound({
-            datumTokenizer: Bloodhound.tokenizers.whitespace,
-            queryTokenizer: Bloodhound.tokenizers.whitespace,
-            local: positions
-        });   
+    
         $("#position").typeahead({
             hint: true,
             highlight: true,
@@ -275,35 +292,25 @@ function initSuggestion(){
         },
         {
             name: 'positions',
-            source: positions
+            source: positionEngine
        }).on('typeahead:selected', function (obj, datum) {
             positionChange();
        });  
-   });
+
        
        
-    $.getJSON("json/city.json",function(data){
-        $.each(data.city, function( index, value ) {
-            cities.push(value._id);
-        });
-        cities = new Bloodhound({
-            datumTokenizer: Bloodhound.tokenizers.whitespace,
-            queryTokenizer: Bloodhound.tokenizers.whitespace,
-            local: cities
-        });   
-        $("#city").typeahead({
+       
+    $("#city").typeahead({
             hint: true,
             highlight: true,
             minLength: 1
        },
        {
             name: 'cities',
-            source: cities
+            source: cityEngine
        }).on('typeahead:selected', function (obj, datum) {
             cityChange();
        });
-
-   });
     
     states = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.whitespace,

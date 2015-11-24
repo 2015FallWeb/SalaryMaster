@@ -34,8 +34,22 @@ public class SuggestionController {
         
         log.info("query: " + query);
         List<String> result = suggestionDAO.getSuggestion("employer", query, 5);
-
+        return result;
+    }
+    
+    @RequestMapping("/typehead/title")
+    public List<String> getTitleList(@RequestParam("query")String query) {
         
+        log.info("query: " + query);
+        List<String> result = suggestionDAO.getSuggestion("title", query, 5);
+        return result;
+    }
+    
+    @RequestMapping("/typehead/city")
+    public List<String> getCityList(@RequestParam("query")String query) {
+        
+        log.info("query: " + query);
+        List<String> result = suggestionDAO.getSuggestion("city", query, 5);
         return result;
     }
 

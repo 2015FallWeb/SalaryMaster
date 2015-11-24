@@ -90,9 +90,7 @@ function toDollar(data){
 }
 
 function summary(companyname) {
-    //alert(min+"!!");
-    if (min !== "") {
-        var url = "statistics/" + companyname;
+    var url = "statistics/" + encodeURIComponent(companyname);
         $.ajax({
             url: url,
             type: "GET",
@@ -112,33 +110,7 @@ function summary(companyname) {
                 alert("data loading failed");
             }
         });
-
-    }
-    else {
-        console.log(min, max, med + "00");
-        var url = "statistics/" + company;
-        $.ajax({
-            url: url,
-            type: "GET",
-            dataType: "Json",
-            success: function (data) {
-                min = data.salaryMin;
-                max = data.salaryMax;
-                med = data.salaryMedian;
-
-           
-                $("#maxSalary").text(toDollar(max));
-                $("#minSalary").text(toDollar(min));
-                $("#medSalary").text(toDollar(med));
-                $("#summary").show(200);
-                $("#summary").show(200);
-
-            },
-            error: function (data) {
-                alert("data loading failed");
-            }
-        });
-    }
+    
 }
 ;
 function pieChart() {
@@ -150,7 +122,7 @@ function titleTable(company) {
         console.log("table null");
         iniCompanyTable(company);
     }else{
-        url = "titleStatistics/" + company;
+        url = "titleStatistics/" + encodeURIComponent(company);
         table.ajax.url(url).load();
 
     }
@@ -217,7 +189,7 @@ function updateSummary(company) {
 
 function updateTable(company) {
     console.log("update table");
-    var url = "titleStatistics/" + company;
+    var url = "titleStatistics/" + encodeURIComponent(company);
     table.ajax.url(url).load();
 }
 
@@ -227,7 +199,7 @@ var employerEngine = new Bloodhound({
         limit: 5,
   remote: {
     url: 'typehead/employer?query=%QUERY',
-    wildcard: '%QUERY',
+    wildcard: '%QUERY'
 
   }
 });
@@ -243,55 +215,6 @@ function companySuggestion() {
     }).on('typeahead:selected', function (obj, datum) {
             searchResult();
     });
-//        
-//         $('.ajax-typehead').typeahead({
-//        hint: true,
-//        highlight: true,
-//        minLength: 1
-//    },
-//      {
-//        name: 'employer',
-//        source: function(query, process) {
-//            console.log($(this)[0].$el[0].dataset);
-//        return $.ajax({
-//            url: "typehead/employer",
-//            type: 'get',
-//            data: {query: query},
-//            dataType: 'json',
-//            success: function(json) {
-//                console.log("typehead: " + json.options)
-//                return process(json.options);
-//            }
-//        });
-//    }
-//      }).on('typeahead:selected', function (obj, datum) {
-//            searchResult();
-//        });
-//    $.getJSON("json/employer.json", function (data) {
-//
-//        $.each(data.employer, function (index, value) {
-//            employer.push(value._id);
-//        });
-//
-//
-//        employer = new Bloodhound({
-//            datumTokenizer: Bloodhound.tokenizers.whitespace,
-//            queryTokenizer: Bloodhound.tokenizers.whitespace,
-//            local: employer
-//        });
-//
-//        $('#company').typeahead({
-//            hint: true,
-//            highlight: true,
-//            minLength: 1
-//        },
-//        {
-//            name: 'employer',
-//            source: employer
-//        }).on('typeahead:selected', function (obj, datum) {
-//            searchResult();
-//        });
-//    });
 }
 
 
