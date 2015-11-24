@@ -252,4 +252,6 @@ public class SalaryDAOMongo implements SalaryDAO{
         log.info("count " + count);
         return (int) count;
     }
+
+
 }

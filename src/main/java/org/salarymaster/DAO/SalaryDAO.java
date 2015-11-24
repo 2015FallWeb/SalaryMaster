@@ -47,5 +47,4 @@ public interface SalaryDAO {
 
     public int getSalaryCount(String employerName, String stateName, String cityName, String titleName);
 
-    
 }

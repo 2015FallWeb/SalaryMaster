@@ -29,9 +29,8 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
         <!-- TypeaHead   -->
-        <script src="js/typeahead/bloodhound.min.js" type="text/javascript"></script>
-        <script src="js/typeahead/typeahead.bundle.min.js" type="text/javascript"></script>
-        <script src="js/typeahead/typeahead.jquery.min.js" type="text/javascript"></script>
+       <script src="js/typeahead/typeahead.bundle.min.js" type="text/javascript"></script>
+
 
         <script src="js/visualjs_1.js?t=1113"></script>
     </head>
@@ -62,10 +61,10 @@
 
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                             <ul style="font-size:20px;font-family: 'Open Sans', serif;" class="nav navbar-nav">
-                                <li class="active">
+                                <li>
                                     <a href="index_1.html">Search <span class="sr-only">(current)</span></a>
                                 </li>
-                                <li>
+                                <li  class="active">
                                     <a  href="visualPage_1.html">Statistics</a>
                                 </li>
                                 <li>
@@ -85,12 +84,9 @@
                     </div>
 
                     <div class="row">
-   
-                            <div class="center_input">
-                                <input id="company" type="text" class="form-control" placeholder="Employer"/>                                 
-                            </div>
-                            
-                            
+                        <div class="center_input">
+                            <input id="company" type="text" class="center form-control ajax-typehead" placeholder="Employer" data-link="typehead/employer"/>                                 
+                        </div>    
                     </div>
                     <hr>
                 </div>

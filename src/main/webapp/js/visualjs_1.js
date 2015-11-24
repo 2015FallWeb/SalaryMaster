@@ -221,35 +221,79 @@ function updateTable(company) {
     table.ajax.url(url).load();
 }
 
+var employerEngine = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.whitespace,
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        limit: 5,
+  remote: {
+    url: 'typehead/employer?query=%QUERY',
+    wildcard: '%QUERY',
+
+  }
+});
+
 function companySuggestion() {
-
-    $.getJSON("json/employer.json", function (data) {
-
-        $.each(data.employer, function (index, value) {
-            employer.push(value._id);
-        });
-
-
-        employer = new Bloodhound({
-            datumTokenizer: Bloodhound.tokenizers.whitespace,
-            queryTokenizer: Bloodhound.tokenizers.whitespace,
-            local: employer
-        });
-
-        $('#company').typeahead({
-            hint: true,
-            highlight: true,
-            minLength: 1
-        },
-        {
-            name: 'employer',
-            source: employer
-        }).on('typeahead:selected', function (obj, datum) {
+    $('.ajax-typehead').typeahead({
+        hint: true,
+        highlight: true,
+        minLength: 1
+        },{
+        name:"employer",
+        source: employerEngine
+    }).on('typeahead:selected', function (obj, datum) {
             searchResult();
-        });
     });
+//        
+//         $('.ajax-typehead').typeahead({
+//        hint: true,
+//        highlight: true,
+//        minLength: 1
+//    },
+//      {
+//        name: 'employer',
+//        source: function(query, process) {
+//            console.log($(this)[0].$el[0].dataset);
+//        return $.ajax({
+//            url: "typehead/employer",
+//            type: 'get',
+//            data: {query: query},
+//            dataType: 'json',
+//            success: function(json) {
+//                console.log("typehead: " + json.options)
+//                return process(json.options);
+//            }
+//        });
+//    }
+//      }).on('typeahead:selected', function (obj, datum) {
+//            searchResult();
+//        });
+//    $.getJSON("json/employer.json", function (data) {
+//
+//        $.each(data.employer, function (index, value) {
+//            employer.push(value._id);
+//        });
+//
+//
+//        employer = new Bloodhound({
+//            datumTokenizer: Bloodhound.tokenizers.whitespace,
+//            queryTokenizer: Bloodhound.tokenizers.whitespace,
+//            local: employer
+//        });
+//
+//        $('#company').typeahead({
+//            hint: true,
+//            highlight: true,
+//            minLength: 1
+//        },
+//        {
+//            name: 'employer',
+//            source: employer
+//        }).on('typeahead:selected', function (obj, datum) {
+//            searchResult();
+//        });
+//    });
 }
-;
+
 
 function back() {
     $("#backTop").on("click", function () {
@@ -283,9 +327,10 @@ $(document).ready(function () {
 		.addClass('table table-striped table-bordered');
 
     $("#summary").hide();
-
+    employerEngine.initialize();
     companySuggestion();
     reSearchAction();
     back();
+    
 
 });

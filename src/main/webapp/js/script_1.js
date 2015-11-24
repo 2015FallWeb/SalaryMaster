@@ -53,7 +53,6 @@ function enableClick(key, value){
 function initTable(url){
     table = $('#entry').DataTable({
         "bProcessing": true,
-        "lengthMenu": [50, 100],
         "bFilter": false, 
         "pageLength": 50,
         "serverSide": true,
@@ -357,6 +356,7 @@ function backToTop(){
 }
 
 $(document).ready(function() {
+        
        var position = $("#position").val();
        var city = $("#city").val();
        var state = $("#state").val();

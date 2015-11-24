@@ -355,6 +355,7 @@ function backToTop(){
 }
 
 $(document).ready(function() {
+    
        var position = $("#position").val();
        var city = $("#city").val();
        var state = $("#state").val();
