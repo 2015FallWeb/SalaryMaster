@@ -287,7 +287,58 @@ html {overflow-y: scroll;}
     padding: 10px;
 }
 
+.map{
+    margin-top: 30px;
+    margin-left: 3.3%;
+    width:93.4%;
+    padding: 20px;
+    height:500px;
+    //margin-top:300px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px; 
 
+    border:2px solid #525C89;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+
+#location{
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  width: 960px;
+  height: 500px;
+  position: relative;
+}
+
+
+
+
+
+
+.states {
+  fill: none;
+  stroke: #fff;
+  stroke-linejoin: round;
+}
+.states-choropleth {
+  fill: #ccc;
+}
+#tooltip-container {
+  position: absolute;
+  background-color: #fff;
+  color: #000;
+  padding: 10px;
+  border: 1px solid;
+  display: none;
+}
+.tooltip_key {
+  font-weight: bold;
+}
+.tooltip_value {
+  margin-left: 20px;
+  float: right;
+}
 
 
 
