@@ -11,6 +11,7 @@ var min = "";
 var max = "";
 var med = "";
 var First = true;
+ var mapdata="";
 
 function iniCompanyTable() {
     url = "titleStatistics/" + company;
@@ -56,7 +57,7 @@ function searchResult() {
     summary(companyname);
     pieChart();
     titleTable(companyname);
-    map();
+    map(companyname);
    
 }
 ;
@@ -125,9 +126,79 @@ function titleTable(company) {
 
 }
 ;
-function map() {
+
+function map(companyname){
+        var url = "statistics/map/" + companyname;
+ 
+        $.ajax({
+            url: url,
+            type: "GET",
+            dataType: "Json",
+            success: function (data) {
+              mapdata = data;
+               console.log(data); 
+               
+               function min(data){
+        var a = data[0].numOfEmployee;
+        for(var i = 1;i<data.length;i++){
+            var b = data[i].numOfEmployee;
+            if (b<=a){
+                a = b;
+            }
+        }
+        return a;
+    }
+               function max(data){
+        var a = data[0].numOfEmployee;
+        for(var i = 1;i<data.length;i++){
+            var b = data[i].numOfEmployee;
+            if (b>=a){
+                a = b;
+            }
+        }
+        return a;
+        
+    }
+    
+               var max = max(data);
+               var min = min(data);
+               var dataset = [["NY",66]];
+               var map = new Datamap({
+                  element: document.getElementById('location'),
+                  scope:'usa',
+                  fills: { defaultFill: '#F5F5F5' },
+                  data: dataset,
+                  geographyConfig: {
+                        borderColor: '#DEDEDE',
+                        highlightBorderWidth: 2,
+                        // don't change color on mouse hover
+                        highlightFillColor: function(geo) {
+                            return geo['fillColor'] || '#F5F5F5';
+                        },
+                        // only change border
+                        highlightBorderColor: '#B7B7B7',
+                        // show desired information in tooltip
+                        popupTemplate: function(geo, data) {
+                        // don't show tooltip if country don't present in dataset
+                             if (!data) { return ; }
+                         // tooltip content
+                            return ['<div class="hoverinfo">',
+                                    '<strong>', geo.properties.name, '</strong>',
+                                    '<br>Count: <strong>', data.numberOfThings, '</strong>',
+                                    '</div>'].join('');
+            }
+        }
+               });
+            
+               
+            },
+            error: function (data) {
+                alert("Map data loading failed");
+            }
+        }); 
 
 }
+
 ;
 //
 //function reSearchAction() {
@@ -247,9 +318,9 @@ $(document).ready(function () {
     // $(".allgraphs").hide();
 //    $("#summary").hide();
     iniCompanyTable();
-    // $("#maxSalary").text(123444);
+
     companySuggestion();
-   // reSearchAction();
+
     back();
 
 });
