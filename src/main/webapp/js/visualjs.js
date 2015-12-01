@@ -11,7 +11,41 @@ var min = "";
 var max = "";
 var med = "";
 var First = true;
- var mapdata="";
+var mapdata="";
+
+
+var statesname = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California',
+  'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii',
+  'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana',
+  'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota',
+  'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire',
+  'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota',
+  'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island',
+  'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont',
+  'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'
+];
+
+var statesShort= ['AL', 'AK', 'AZ', 'AR', 'CA',
+  'CO', 'CT', 'DE', 'FL', 'GA', 'HI',
+  'ID', 'IL', 'IN', 'Iowa', 'KS', 'KY', 'LA',
+  'ME', 'MD', 'MA', 'MI', 'MN',
+  'MS', 'MO', 'MT', 'Nebraska', 'NV', 'NH',
+  'NJ', 'NM', 'NY', 'NC', 'ND',
+  'OH', 'OK', 'OR', 'PA', 'RI',
+  'SC', 'SD', 'TN', 'TX', 'UT', 'VT',
+  'VA', 'WA', 'WV', 'WI', 'WY'
+];
+
+
+function findState(state){
+    for(var i = 0;i<statesname.length;i++){
+        if(state===statesname[i]){
+            return statesShort[i]; 
+        }
+    }
+}
+
+
 
 function iniCompanyTable() {
     url = "titleStatistics/" + company;
@@ -128,26 +162,28 @@ function titleTable(company) {
 ;
 
 function map(companyname){
+        $("#location").remove();
+        $('.map').append("<div class='container' id='location'></div>");
         var url = "statistics/map/" + companyname;
- 
+        
         $.ajax({
             url: url,
             type: "GET",
             dataType: "Json",
             success: function (data) {
-              mapdata = data;
+               mapdata = data;
                console.log(data); 
                
                function min(data){
-        var a = data[0].numOfEmployee;
-        for(var i = 1;i<data.length;i++){
-            var b = data[i].numOfEmployee;
-            if (b<=a){
-                a = b;
-            }
-        }
-        return a;
-    }
+               var a = data[0].numOfEmployee;
+                    for(var i = 1;i<data.length;i++){
+                        var b = data[i].numOfEmployee;
+                     if (b<=a){
+                        a = b;
+                        }
+                    }
+                    return a;
+                }
                function max(data){
         var a = data[0].numOfEmployee;
         for(var i = 1;i<data.length;i++){
@@ -162,34 +198,81 @@ function map(companyname){
     
                var max = max(data);
                var min = min(data);
-               var dataset = [["NY",66]];
+               var dataset = {};
+               var colorset = {};
+               var series=[];
+               for(var i =0;i<data.length;i++){
+                   var state = data[i].state;
+                   var shortName = findState(state);
+                   series[i]=[shortName,data[i].numOfEmployee];
+               }
+               console.log("series= ~"+series);
+               
+                var paletteScale = d3.scale.linear()
+                                     .domain([min,max])
+                                     .range(["#EFEFFF","#02386F"]);
+                            
+                series.forEach(function(item){
+                    var state = item[0];
+                    var value = item[1];
+                    dataset[state] = {
+                        numberOfEmployees:value,
+                        fillColor:paletteScale(value)
+                    };
+                    colorset[state]=paletteScale(value);
+                    
+                });
+                
+                console.log(colorset);
+                
                var map = new Datamap({
                   element: document.getElementById('location'),
                   scope:'usa',
-                  fills: { defaultFill: '#F5F5F5' },
+                  fills: { defaultFill: '#FEFFFF' },
                   data: dataset,
                   geographyConfig: {
-                        borderColor: '#DEDEDE',
+                        borderWidth: 1,
+                        borderColor: '#999999',
+                        popupOnHover: true,
+                        highlightOnHover: true,
+                        
+                        
+                       
                         highlightBorderWidth: 2,
                         // don't change color on mouse hover
                         highlightFillColor: function(geo) {
-                            return geo['fillColor'] || '#F5F5F5';
+                            return geo['fillColor'] || '#FB7F5A';
                         },
                         // only change border
                         highlightBorderColor: '#B7B7B7',
                         // show desired information in tooltip
                         popupTemplate: function(geo, data) {
                         // don't show tooltip if country don't present in dataset
-                             if (!data) { return ; }
+                             if (!data) {
+                                 return ['<div class="hoverinfo">',
+                                    '<strong>', geo.properties.name, '</strong>',
+                                    '<br>Count: <strong>', 0, '</strong>',
+                                    '</div>'].join(''); 
+                            }
                          // tooltip content
+                         else{
+//                             console.log(data.numberOfEmployees+"0000000");
                             return ['<div class="hoverinfo">',
                                     '<strong>', geo.properties.name, '</strong>',
-                                    '<br>Count: <strong>', data.numberOfThings, '</strong>',
+                                    '<br>Count: <strong>', data.numberOfEmployees, '</strong>',
+                                    '</div>'].join('');
+                            }
+                             return ['<div class="hoverinfo">',
+                                    '<strong>', geo.properties.name, '</strong>',
+                                    '<br>Count: <strong>', data.numberOfEmployees, '</strong>',
                                     '</div>'].join('');
             }
         }
                });
             
+               map.updateChoropleth(colorset);
+               
+               
                
             },
             error: function (data) {
@@ -200,6 +283,8 @@ function map(companyname){
 }
 
 ;
+
+
 //
 //function reSearchAction() {
 //
@@ -318,6 +403,7 @@ $(document).ready(function () {
     // $(".allgraphs").hide();
 //    $("#summary").hide();
     iniCompanyTable();
+  
 
     companySuggestion();
 
