@@ -245,7 +245,7 @@ html {overflow-y: scroll;}
   
     color:#23527c;
 }
-#pie{
+#pieChart{
     height:230px;
  
     width:46.55%;
@@ -256,6 +256,10 @@ html {overflow-y: scroll;}
     float:left;
     margin-left:2.5%;
 }
+/*#pieChart{
+   margin:0 auto;
+   width:95%;
+}*/
 
 
 
@@ -270,7 +274,7 @@ html {overflow-y: scroll;}
     margin-left: 3.3%;
     width:93.4%;
     padding: 20px;
-    height:325px;
+    height:350px;
     //margin-top:300px;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;

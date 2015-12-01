@@ -150,7 +150,125 @@ function summary(companyname) {
 }
 ;
 function pieChart() {
+    $("#pieChart").remove();
+    $('#graph12').append("<div class='container' id='pieChart'></div>");
+    url = "titleStatistics/" + company;
+      $.ajax({
+            url: url,
+            type: "GET",
+            dataType: "Json",
+            success: function (piedata) {
+                var top1 = piedata[0];
+                var top2 = piedata[1];
+                var top3 = piedata[2];
+                var top4 = piedata[3];
+                var top5 = piedata[4];
+                
+                var data = {
+        "content": [
+			{
+				"label": top1.jobTitle,
+				"value": top1.count,
+				"color": "#FB7F5A"
+			},
+			{
+				"label": top2.jobTitle,
+				"value": top2.count,
+				"color": "#525C89"
+			},
+                        {
+				"label": top3.jobTitle,
+				"value": top3.count,
+				"color": "#1276EF"
+			},
+                         {
+				"label": top4.jobTitle,
+				"value": top4.count,
+				"color": "#52D5CD"
+			},
+                         {
+				"label": top5.jobTitle,
+				"value": top5.count,
+				"color": "#FEFFFF"
+			}
+                        
+                    ]
+    };
+    
+                var pie = new d3pie("pieChart", {
+	"header": {
+		"title": {
+			"fontSize": 24,
+			"font": "open sans"
+		},
+		"subtitle": {
+			"color": "#999999",
+			"fontSize": 12,
+			"font": "open sans"
+		},
+		"titleSubtitlePadding": 9
+	},
+	"footer": {
+		"color": "#999999",
+		"fontSize": 10,
+		"font": "open sans",
+		"location": "bottom-left"
+	},
+	"size": {
+		"canvasHeight": 230,
+		"canvasWidth": 450,
+		"pieInnerRadius": "38%",
+		"pieOuterRadius": "100%"
+	},
+	"data": data,
+	"labels": {
+		"outer": {
+			"pieDistance": 32
+		},
+		"inner": {
+			"hideWhenLessThanPercentage": 3
+		},
+		"mainLabel": {
+			"fontSize": 11
+		},
+		"percentage": {
+			"color": "#ffffff",
+			"decimalPlaces": 0
+		},
+		"value": {
+			"color": "#adadad",
+			"fontSize": 11
+		},
+		"lines": {
+			"enabled": true
+		},
+		"truncation": {
+			"enabled": true
+		}
+	},
+	"effects": {
+		"pullOutSegmentOnClick": {
+			"effect": "back",
+			"speed": 400,
+			"size": 8
+		}
+	},
+	"misc": {
+		"gradient": {
+			"enabled": true,
+			"percentage": 100
+		}
+	}
+});
 
+            },
+            error: function (data) {
+                alert("data loading failed");
+            }
+        });
+    
+  
+    
 }
 ;
 function titleTable(company) {
@@ -403,7 +521,7 @@ $(document).ready(function () {
     // $(".allgraphs").hide();
 //    $("#summary").hide();
     iniCompanyTable();
-  
+
 
     companySuggestion();
 
