@@ -89,7 +89,7 @@ function iniCompanyTable() {
 function searchResult() {
     var companyname = $("#company").val();
     summary(companyname);
-    pieChart();
+    pieChart(companyname);
     titleTable(companyname);
     map(companyname);
    
@@ -149,10 +149,10 @@ function summary(companyname) {
     }
 }
 ;
-function pieChart() {
+function pieChart(companyname) {
     $("#pieChart").remove();
     $('#graph12').append("<div class='container' id='pieChart'></div>");
-    url = "titleStatistics/" + company;
+    url = "titleStatistics/" + companyname;
       $.ajax({
             url: url,
             type: "GET",
