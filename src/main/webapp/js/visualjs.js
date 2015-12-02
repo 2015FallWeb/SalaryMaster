@@ -98,7 +98,7 @@ function searchResult() {
 
 
 function summary(companyname) {
-    //alert(min+"!!");
+    alert(min+"!!");
     if (min !== "") {
         var url = "statistics/" + companyname;
         $.ajax({
@@ -519,7 +519,7 @@ function back() {
 
 $(document).ready(function () {
     // $(".allgraphs").hide();
-//    $("#summary").hide();
+    //$("#summary").hide();
     iniCompanyTable();
 
 
