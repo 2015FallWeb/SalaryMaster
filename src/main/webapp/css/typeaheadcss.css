@@ -15,7 +15,7 @@ and open the template in the editor.
   width: 396px;
   height: 30px;
   padding: 8px 12px;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 30px;
   border: 2px solid #ccc;
   -webkit-border-radius: 8px;
@@ -58,8 +58,8 @@ and open the template in the editor.
 }
 
 .tt-suggestion {
-  padding: 3px 20px;
-  font-size: 14px;
+  padding: 0px 20px;
+  font-size: 13px;
   line-height: 24px;
 }
 
