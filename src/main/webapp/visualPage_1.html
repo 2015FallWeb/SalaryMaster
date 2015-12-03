@@ -56,7 +56,7 @@
 </div>
 
 
-        <div id="wrapper" style="position:relative;height:2000px;">
+        <div id="wrapper" style="position:relative;">
             <div class="container header">
                 <nav class="navbar nav-pills">
                     <div class="container-fluid">
@@ -99,7 +99,7 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-sm-4">
+                    <div class="col-sm-5">
                     <div  class="panel panel-default fit"  id="summary">
                         <div class="panel-heading">Summary</div>
                         <div class="panel-body">
@@ -125,12 +125,12 @@
                     </div>
                     </div>
                     
-                    <div class="col-sm-8">
+                    <div class="col-sm-7">
                         <div id="top5" class="panel panel-default">
                              <!--pie Chart--> 
                         <div class="panel-heading">Top 5 Position</div>
                         <div class="panel-body center">
-                            <div id="graph12" class="col-xs-6">  
+                            <div id="graph12"  class="col-sm-6">  
                                 <div id="pie">
 
                                 </div> 
@@ -162,22 +162,19 @@
                     </div>
                     
                     <!--map-->
-                    <div class="container map">
-
-                        <div class="container" id="mapIntro"> 
+                    <div  class="map" >
+                     <div hidden class="panel panel-default" id="mapIntro">
+                        <div class="panel-heading">Geographic Distribution by State</div>
+                        <div class="panel-body">
                             
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    When mouse hovers, the data shows the number of new employees in this company in 2015. 
-                                </div>
-                            </div>                            
-                            
-                        </div>
-                            <div class="col-sm-9" id="location">
+                            <div  id="location">
 
 
 
                             </div>
+                        </div>
+                    </div>
+                        
                         
                     </div>
                 </div>
@@ -190,17 +187,15 @@
 
 
 
-        <div class="toolbar">  
-
-
-            <a href="" class="toolbar-item toolbar-item-feedback"></a>
-
-
-
-            <a id ="backTop" href="javascript:;" class="toolbar-item toolbar-item-top"></a>
-
-
-        </div>   
+<span id="top-link-block" hidden>
+    <a href="#top" class="well well-sm"  onclick="$('html,body').animate({scrollTop:0},'slow');return false;">
+        <i class="glyphicon glyphicon-chevron-up"></i>Top
+    </a>
+</span>
+    <hr>
+    <p class="text-center">Copyright @ Salary Master. All rights reserved. </p>
+    
+ 
 
 
 

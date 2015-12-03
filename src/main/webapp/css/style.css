@@ -82,3 +82,19 @@ body{
     margin-top:30px;
 
 }
+#location{
+  margin-top: 0px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  width: 960px;
+  height: 500px;
+  position: relative;
+}
+#mapIntro{
+
+  margin:0 auto;
+}
+
+/*#copyright{
+   
+    bottom:10px
+}*/

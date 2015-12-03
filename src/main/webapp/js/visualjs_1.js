@@ -46,7 +46,7 @@ function findState(state){
 
 function map(companyname){
         $("#location").remove();
-        $('.map').append("<div class='container' id='location'></div>");
+        $('#mapIntro').append("<div class='container' id='location'></div>");
         var url = "statistics/map/" + companyname;
         
         $.ajax({
@@ -107,7 +107,7 @@ function map(companyname){
                 });
                 
                 console.log(colorset);
-                
+                $("#mapIntro").show(200);
                var map = new Datamap({
                   element: document.getElementById('location'),
                   scope:'usa',
@@ -167,7 +167,7 @@ function map(companyname){
 
 function pieChart(companyname) {
     $("#pieChart").remove();
-    $('#graph12').append("<div class='container' id='pieChart'></div>");
+    $('#graph12').append("<div  id='pieChart'></div>");
     url = "titleStatistics/" + companyname;
       $.ajax({
             url: url,
@@ -410,6 +410,7 @@ function reSearchAction() {
         $("#table_wrapper").hide();
         $("#summary").hide();
         $("#top5").hide();
+        $("#mapIntro").hide();
     });
 
 }
