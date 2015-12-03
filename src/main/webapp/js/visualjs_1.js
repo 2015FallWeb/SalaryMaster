@@ -11,6 +11,281 @@ var min = "";
 var max = "";
 var med = "";
 var First = true;
+var mapdata="";
+
+var statesname = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California',
+  'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii',
+  'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana',
+  'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota',
+  'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire',
+  'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota',
+  'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island',
+  'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont',
+  'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'
+];
+
+var statesShort= ['AL', 'AK', 'AZ', 'AR', 'CA',
+  'CO', 'CT', 'DE', 'FL', 'GA', 'HI',
+  'ID', 'IL', 'IN', 'Iowa', 'KS', 'KY', 'LA',
+  'ME', 'MD', 'MA', 'MI', 'MN',
+  'MS', 'MO', 'MT', 'Nebraska', 'NV', 'NH',
+  'NJ', 'NM', 'NY', 'NC', 'ND',
+  'OH', 'OK', 'OR', 'PA', 'RI',
+  'SC', 'SD', 'TN', 'TX', 'UT', 'VT',
+  'VA', 'WA', 'WV', 'WI', 'WY'
+];
+
+
+function findState(state){
+    for(var i = 0;i<statesname.length;i++){
+        if(state===statesname[i]){
+            return statesShort[i]; 
+        }
+    }
+}
+
+function map(companyname){
+        $("#location").remove();
+        $('.map').append("<div class='container' id='location'></div>");
+        var url = "statistics/map/" + companyname;
+        
+        $.ajax({
+            url: url,
+            type: "GET",
+            dataType: "Json",
+            success: function (data) {
+               mapdata = data;
+               console.log(data); 
+               
+               function min(data){
+               var a = data[0].numOfEmployee;
+                    for(var i = 1;i<data.length;i++){
+                        var b = data[i].numOfEmployee;
+                     if (b<=a){
+                        a = b;
+                        }
+                    }
+                    return a;
+                }
+               function max(data){
+        var a = data[0].numOfEmployee;
+        for(var i = 1;i<data.length;i++){
+            var b = data[i].numOfEmployee;
+            if (b>=a){
+                a = b;
+            }
+        }
+        return a;
+        
+    }
+    
+               var max = max(data);
+               var min = min(data);
+               var dataset = {};
+               var colorset = {};
+               var series=[];
+               for(var i =0;i<data.length;i++){
+                   var state = data[i].state;
+                   var shortName = findState(state);
+                   series[i]=[shortName,data[i].numOfEmployee];
+               }
+               console.log("series= ~"+series);
+               
+                var paletteScale = d3.scale.linear()
+                                     .domain([min,max])
+                                     .range(["#EFEFFF","#02386F"]);
+                            
+                series.forEach(function(item){
+                    var state = item[0];
+                    var value = item[1];
+                    dataset[state] = {
+                        numberOfEmployees:value,
+                        fillColor:paletteScale(value)
+                    };
+                    colorset[state]=paletteScale(value);
+                    
+                });
+                
+                console.log(colorset);
+                
+               var map = new Datamap({
+                  element: document.getElementById('location'),
+                  scope:'usa',
+                  fills: { defaultFill: '#FEFFFF' },
+                  data: dataset,
+                  geographyConfig: {
+                        borderWidth: 1,
+                        borderColor: '#999999',
+                        popupOnHover: true,
+                        highlightOnHover: true,
+                        
+                        
+                       
+                        highlightBorderWidth: 2,
+                        // don't change color on mouse hover
+                        highlightFillColor: function(geo) {
+                            return geo['fillColor'] || '#FB7F5A';
+                        },
+                        // only change border
+                        highlightBorderColor: '#B7B7B7',
+                        // show desired information in tooltip
+                        popupTemplate: function(geo, data) {
+                        // don't show tooltip if country don't present in dataset
+                             if (!data) {
+                                 return ['<div class="hoverinfo">',
+                                    '<strong>', geo.properties.name, '</strong>',
+                                    '<br>Count: <strong>', 0, '</strong>',
+                                    '</div>'].join(''); 
+                            }
+                         // tooltip content
+                         else{
+//                             console.log(data.numberOfEmployees+"0000000");
+                            return ['<div class="hoverinfo">',
+                                    '<strong>', geo.properties.name, '</strong>',
+                                    '<br>Count: <strong>', data.numberOfEmployees, '</strong>',
+                                    '</div>'].join('');
+                            }
+                             return ['<div class="hoverinfo">',
+                                    '<strong>', geo.properties.name, '</strong>',
+                                    '<br>Count: <strong>', data.numberOfEmployees, '</strong>',
+                                    '</div>'].join('');
+            }
+        }
+               });
+            
+               map.updateChoropleth(colorset);
+               
+               
+               
+            },
+            error: function (data) {
+                alert("Map data loading failed");
+            }
+        }); 
+
+}
+
+function pieChart(companyname) {
+    $("#pieChart").remove();
+    $('#graph12').append("<div class='container' id='pieChart'></div>");
+    url = "titleStatistics/" + companyname;
+      $.ajax({
+            url: url,
+            type: "GET",
+            dataType: "Json",
+            success: function (piedata) {
+                var top1 = piedata[0];
+                var top2 = piedata[1];
+                var top3 = piedata[2];
+                var top4 = piedata[3];
+                var top5 = piedata[4];
+                
+                var data = {
+        "content": [
+			{
+				"label": top1.jobTitle,
+				"value": top1.count,
+				"color": "#FB7F5A"
+			},
+			{
+				"label": top2.jobTitle,
+				"value": top2.count,
+				"color": "#525C89"
+			},
+                        {
+				"label": top3.jobTitle,
+				"value": top3.count,
+				"color": "#1276EF"
+			},
+                         {
+				"label": top4.jobTitle,
+				"value": top4.count,
+				"color": "#52D5CD"
+			},
+                         {
+				"label": top5.jobTitle,
+				"value": top5.count,
+				"color": "#FEFFFF"
+			}
+                        
+                    ]
+    };
+    
+                var pie = new d3pie("pieChart", {
+	"header": {
+		"title": {
+			"fontSize": 24,
+			"font": "open sans"
+		},
+		"subtitle": {
+			"color": "#999999",
+			"fontSize": 12,
+			"font": "open sans"
+		},
+		"titleSubtitlePadding": 9
+	},
+	"footer": {
+		"color": "#999999",
+		"fontSize": 10,
+		"font": "open sans",
+		"location": "bottom-left"
+	},
+	"size": {
+		"canvasHeight": 230,
+		"canvasWidth": 600,
+		"pieInnerRadius": "38%",
+		"pieOuterRadius": "100%"
+	},
+	"data": data,
+	"labels": {
+		"outer": {
+			"pieDistance": 32
+		},
+		"inner": {
+			"hideWhenLessThanPercentage": 3
+		},
+		"mainLabel": {
+			"fontSize": 11
+		},
+		"percentage": {
+			"color": "#ffffff",
+			"decimalPlaces": 0
+		},
+		"value": {
+			"color": "#adadad",
+			"fontSize": 11
+		},
+		"lines": {
+			"enabled": true
+		},
+		"truncation": {
+			"enabled": true
+		}
+	},
+	"effects": {
+		"pullOutSegmentOnClick": {
+			"effect": "back",
+			"speed": 400,
+			"size": 8
+		}
+	},
+	"misc": {
+		"gradient": {
+			"enabled": true,
+			"percentage": 100
+		}
+	}
+});         
+            $("#top5").show(200);
+            },
+            error: function (data) {
+                alert("data loading failed");
+            }
+        });
+    
+  
+    
+}
 
 function iniCompanyTable(company) {
     
@@ -81,9 +356,9 @@ function iniCompanyTable(company) {
 function searchResult() {
     var companyname = $("#company").val();
     summary(companyname);
-    pieChart();
+    pieChart(companyname);
     titleTable(companyname);
-    map();
+    map(companyname);
 }
 function toDollar(data){
     return "$" +data.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
@@ -113,10 +388,7 @@ function summary(companyname) {
     
 }
 ;
-function pieChart() {
 
-}
-;
 function titleTable(company) {
     if(table == null){
         console.log("table null");
@@ -131,16 +403,13 @@ function titleTable(company) {
 
 }
 ;
-function map() {
-
-}
-;
 
 function reSearchAction() {
 
     $("#company").keyup(function () {
         $("#table_wrapper").hide();
         $("#summary").hide();
+        $("#top5").hide();
     });
 
 }
@@ -250,6 +519,7 @@ $(document).ready(function () {
 		.addClass('table table-striped table-bordered');
 
     $("#summary").hide();
+    $("#top5").hide();
     employerEngine.initialize();
     companySuggestion();
     reSearchAction();
