@@ -437,3 +437,8 @@ should optimize our sass*/
   -o-transition: all 1s;
   transition: all 1s; }
 
+.iniPic img{
+    margin-top: 80px;
+    width: 80%;
+    margin-left: 10%;
+}

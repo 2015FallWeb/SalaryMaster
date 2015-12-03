@@ -49,7 +49,6 @@ function findState(state){
 
 function iniCompanyTable() {
     url = "titleStatistics/" + company;
-    console.log("----" + company + "----");
     table = $("#companyEntry").DataTable({
         "ServerSide": true,
         "bProcessing": true,
@@ -98,7 +97,7 @@ function searchResult() {
 
 
 function summary(companyname) {
-    alert(min+"!!");
+
     if (min !== "") {
         var url = "statistics/" + companyname;
         $.ajax({
@@ -136,9 +135,9 @@ function summary(companyname) {
                 med = data.salaryMedian;
                 console.log(min, max, med);
 //           
-                $("#maxSalary").text("$" + max + ".00");
-                $("#minSalary").text("$" + min + ".00");
-                $("#medSalary").text("$" + med + ".00");
+                $("#maxSalary").text("$" + max);
+                $("#minSalary").text("$" + min);
+                $("#medSalary").text("$" + med);
                 $("#summary").show(200);
 
             },
@@ -158,13 +157,16 @@ function pieChart(companyname) {
             type: "GET",
             dataType: "Json",
             success: function (piedata) {
+                var content = [];
+                var data={"content":content};
+                if(piedata.length>=5){
                 var top1 = piedata[0];
                 var top2 = piedata[1];
                 var top3 = piedata[2];
                 var top4 = piedata[3];
                 var top5 = piedata[4];
-                
-                var data = {
+            
+                data = {
         "content": [
 			{
 				"label": top1.jobTitle,
@@ -194,7 +196,24 @@ function pieChart(companyname) {
                         
                     ]
     };
-    
+                }else{
+
+                    var color=["#FB7F5A","#525C89","#52D5CD","#1276EF","#FEFFFF"];
+                    for( var i = 0;i<piedata.length;i++){
+                        var subcontent = {"label": piedata[i].jobTitle,
+                                           "value":piedata[i].count,
+                                           "color": color[i]
+                                          };
+                         content.push(subcontent);
+                        
+                    }
+
+                    data = {"content":content};
+                    console.log(data);
+                    
+                }
+                
+                
                 var pie = new d3pie("pieChart", {
 	"header": {
 		"title": {
@@ -485,7 +504,10 @@ function companySuggestion() {
             name: 'employer',
             source: employer
         }).on('typeahead:selected', function (obj, datum) {
+            $(".iniPic").hide();
+            $(".allgraphs").show(200);
             searchResult();
+            
         });
     });
 }
@@ -519,7 +541,8 @@ function back() {
 
 $(document).ready(function () {
     // $(".allgraphs").hide();
-    //$("#summary").hide();
+    $(".allgraphs").hide();
+    $(".iniPic").show();
     iniCompanyTable();
 
 
