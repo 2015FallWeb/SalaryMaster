@@ -93,8 +93,20 @@ body{
 
   margin:0 auto;
 }
-
-/*#copyright{
-   
-    bottom:10px
-}*/
+.footer {
+  margin-top:10%;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 90px;
+  
+}
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 90px;
+}
