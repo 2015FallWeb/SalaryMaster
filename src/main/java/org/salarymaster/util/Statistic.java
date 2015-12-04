@@ -21,6 +21,8 @@ public class Statistic {
     public static Stat getStatisticInfo(final List<Salary> salary) {
 //        Double[] res = new Double[3];
         Stat res = new Stat();
+        
+        //if just one record 
         if (salary.size() == 1) {
             double max = salary.get(0).getWageOfferFrom9089();
             double median = salary.get(0).getWageOfferFrom9089();
@@ -32,6 +34,9 @@ public class Statistic {
             res.setSalaryMedian(median);
             return res;
         }
+        
+        //if the max salary is under 10000, get the originla min
+        //if not, get the min salary which is above 1000
         Collections.sort(salary, null);
         double max = salary.get(0).getWageOfferFrom9089();
         double min = 0;
