@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 var employer = [];
-console.log("abc");
 var company = "University Of Pittsburgh";
 var table = null;
 var min = "";
@@ -54,8 +53,7 @@ function map(companyname){
             type: "GET",
             dataType: "Json",
             success: function (data) {
-               mapdata = data;
-               console.log(data); 
+               mapdata = data; 
                
                function min(data){
                var a = data[0].numOfEmployee;
@@ -89,7 +87,6 @@ function map(companyname){
                    var shortName = findState(state);
                    series[i]=[shortName,data[i].numOfEmployee];
                }
-               console.log("series= ~"+series);
                
                 var paletteScale = d3.scale.linear()
                                      .domain([min,max])
@@ -105,8 +102,6 @@ function map(companyname){
                     colorset[state]=paletteScale(value);
                     
                 });
-                
-                console.log(colorset);
                 $("#mapIntro").show(200);
                var map = new Datamap({
                   element: document.getElementById('location'),
@@ -139,7 +134,6 @@ function map(companyname){
                             }
                          // tooltip content
                          else{
-//                             console.log(data.numberOfEmployees+"0000000");
                             return ['<div class="hoverinfo">',
                                     '<strong>', geo.properties.name, '</strong>',
                                     '<br>Count: <strong>', data.numberOfEmployees, '</strong>',
@@ -290,7 +284,6 @@ function pieChart(companyname) {
 function iniCompanyTable(company) {
     
     url = "titleStatistics/" + company;
-    console.log("----" + company + "----");
     table = $("#companyEntry").DataTable({
 
         "pageLength": 5,
@@ -349,8 +342,6 @@ function iniCompanyTable(company) {
         }
 
     });
-    
-    //console.log("00000000");
 
 }
 function searchResult() {
@@ -391,7 +382,6 @@ function summary(companyname) {
 
 function titleTable(company) {
     if(table == null){
-        console.log("table null");
         iniCompanyTable(company);
     }else{
         url = "titleStatistics/" + encodeURIComponent(company);
@@ -418,9 +408,8 @@ function reSearchAction() {
 function updateGraphs() {
 
     var companyname = $("#company").val();
-    console.log("ssss" + companyname);
     $("#company").keydown(function () {
-        console.log("change" + companyname);
+
         if (companyname.length !== 0) {
             updateSummary(companyname);
             updatePie();
@@ -432,7 +421,6 @@ function updateGraphs() {
 }
 
 function updateSummary(company) {
-    console.log("update graph1");
     var url = "statistics/" + company;
     $.ajax({
         url: url,
@@ -442,8 +430,7 @@ function updateSummary(company) {
             var min = data.salaryMin;
             var max = data.salaryMax;
             var med = data.salaryMedian;
-            console.log(min, max, med);
-//           
+           
             $("#maxSalary").text("$" + max + ".00");
             $("#minSalary").text("$" + min + ".00");
             $("#medSalary").text("$" + med + ".00");
@@ -458,7 +445,6 @@ function updateSummary(company) {
 }
 
 function updateTable(company) {
-    console.log("update table");
     var url = "titleStatistics/" + encodeURIComponent(company);
     table.ajax.url(url).load();
 }
@@ -486,34 +472,10 @@ function companySuggestion() {
             searchResult();
     });
 }
-
-
-function back() {
-    $("#backTop").on("click", function () {
-        move();
-
-    });
-
-    $(window).on('scroll', function () {
-        checkPosition($(window).height());
-    });
-
-    function move() {
-        console.log("aaaaa");
-        $("html,body").animate({
-            scrollTop: 0
-        }, 800);
-    }
-    function checkPosition(pos) {
-        if ($(window).scrollTop() > pos) {
-            $("#backTop").fadeIn();
-
-        } else {
-            $("#backTop").fadeOut();
-        }
-    }
+function typeheadFix(){
+    $('.typeahead.input-sm').siblings('input.tt-hint').addClass('hint-small');
+    $('.typeahead.input-lg').siblings('input.tt-hint').addClass('hint-large');
 }
-
 $(document).ready(function () {
     // $(".allgraphs").hide();
     $('#companyEntry').removeClass( 'display' )
@@ -525,6 +487,6 @@ $(document).ready(function () {
     companySuggestion();
     reSearchAction();
     back();
-    
+    typeheadFix();
 
 });

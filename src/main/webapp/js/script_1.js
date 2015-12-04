@@ -183,7 +183,6 @@ function initByEmployer(employerName){
 }
 
 function init(){
-    console.log("init start");
     $("#employerName").val(employerName);
     initByEmployer(employerName);
     $('#entry').removeClass( 'display' )
@@ -339,23 +338,11 @@ function backToTop(){
     $(window).on('scroll',function(){
     	checkPosition($(window).height());
     });
-
-    function move(){
-        console.log("aaaaa");
-    	$("html,body").animate({
-    		scrollTop:0
-    	},800);
-    }
-    function checkPosition(pos){
-    	if($(window).scrollTop()>pos){
-    		$("#backTop").fadeIn();
-
-    	}else{
-    		$("#backTop").fadeOut();
-    	}
-    }
 }
-
+function typeheadFix(){
+    $('.typeahead.input-sm').siblings('input.tt-hint').addClass('hint-small');
+    $('.typeahead.input-lg').siblings('input.tt-hint').addClass('hint-large');
+}
 $(document).ready(function() {
         
        var position = $("#position").val();
@@ -366,6 +353,7 @@ $(document).ready(function() {
        initSuggestion();
        changeMonitor();
        backToTop();
+       typeheadFix();
        var amountScrolled = 300;
 
         $(window).scroll(function() {
