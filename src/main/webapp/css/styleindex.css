@@ -1,33 +1,3 @@
-
-Skip to content
-This repository
-
-    Pull requests
-    Issues
-    Gist
-
-    @nancyzqqq
-
-1
-0
-
-    1
-
-2015FallWeb/SalaryMaster
-Code
-Issues 0
-Pull requests 0
-Wiki
-Pulse
-Graphs
-Settings
-SalaryMaster/src/main/webapp/css/styleindex.css
-1838bba 2 days ago
-韶璠张 Merge branch 'master' of https://github.com/2015FallWeb/SalaryMaster
-2 contributors
-@nancyzq
-@chanllen
-440 lines (340 sloc) 7.17 KB
 /* css reset www.admin10000.com */
 body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,p,blockquote,th,td { margin:0; padding:0; }
 body { background:#fff; color:#555; font-size:14px; font-family: Verdana, Arial, Helvetica, sans-serif; }
@@ -217,7 +187,7 @@ html {overflow-y: scroll;}
 .graph_wrapper{
 
     background-color: #DFEAF0;
-    width:100%;
+    width:1300px;
     height:100%;
  
 }
@@ -242,14 +212,16 @@ html {overflow-y: scroll;}
 }
 
 #graph12{
-    width:100%;
+    width:1100px;
+    margin:0 auto;
     margin-top: 20px;
-    margin-left: 2%;
+    padding: 0;
+    
 }
 
 #summary{
     height:230px;
-    width:46.55%;
+    width:47%;
     float:left;
     border:2px solid #525C89;
     -webkit-border-radius: 10px;
@@ -260,31 +232,37 @@ html {overflow-y: scroll;}
 }
 
 .showText{
-    margin-top: 5%;
+    
+    width: 300px;
     height: 30%;
-  
+    margin:0 auto;
+    margin-top: 5%;
     font-family: open sans;
     font-size: 30px;
     color: #23527c;
+    float:left
 }
 .resultText{
     height: 30%;
+    width:200px;
+    margin:0 auto;
     margin-top: 5%;
     font-family: open sans;
     font-size: 30px;
   
     color:#23527c;
+    float:left;
 }
 #pieChart{
     height:230px;
- 
-    width:46.55%;
+    margin-left: 6%;
+    width:47%;
     border:2px solid #525C89;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     border-radius: 10px;   
     float:left;
-    margin-left:2.5%;
+
 }
 /*#pieChart{
    margin:0 auto;
@@ -300,12 +278,13 @@ html {overflow-y: scroll;}
 
 
 .tTable{
+    margin:0 auto;
     margin-top: 30px;
-    margin-left: 3.3%;
-    width:93.4%;
+    
+    width:1100px;
     padding: 20px;
     height:350px;
-    /*//margin-top:300px;*/
+    //margin-top:300px;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     border-radius: 10px; 
@@ -323,12 +302,13 @@ html {overflow-y: scroll;}
 }
 
 .map{
+    margin:0 auto;
     margin-top: 30px;
-    margin-left: 3.3%;
-    width:93.4%;
+    
+    width:1100px;
     padding: 20px;
     height:700px;
-    /*//margin-top:300px;*/
+    //margin-top:300px;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     border-radius: 10px; 
@@ -467,7 +447,8 @@ should optimize our sass*/
   -o-transition: all 1s;
   transition: all 1s; }
 
-    Status API Training Shop Blog About Pricing 
-
-    © 2015 GitHub, Inc. Terms Privacy Security Contact Help 
-
+.iniPic img{
+    margin-top: 80px;
+    width: 80%;
+    margin-left: 10%;
+}
