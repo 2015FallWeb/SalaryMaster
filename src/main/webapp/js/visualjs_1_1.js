@@ -160,7 +160,7 @@ function map(companyname){
 }
 function pieChart(companyname) {
     $("#pieChart").remove();
-    $('#graph12').append("<div  id='pieChart'></div>");
+    $('#graph12').append("<div class='container' id='pieChart'></div>");
     url = "titleStatistics/" + companyname;
       $.ajax({
             url: url,
@@ -301,7 +301,7 @@ function pieChart(companyname) {
 }
 
 function iniCompanyTable(company) {
-     $('#processing-modal').modal('toggle');
+    
     url = "titleStatistics/" + company;
     table = $("#companyEntry").DataTable({
 
@@ -353,8 +353,10 @@ function iniCompanyTable(company) {
     table.on('processing.dt', function (e, settings, processing) {
         // $('#processing-modal').css( 'display', processing ? 'block' : 'none' );
         if (processing) {
+            First = false;
             $('#processing-modal').modal({show: true});
-        } else {
+        } else if (!First) {
+
             $('#processing-modal').modal('toggle');
         }
 
@@ -505,12 +507,5 @@ $(document).ready(function () {
     reSearchAction();
 
     typeheadFix();
-    var amountScrolled = 300;
-           $(window).scroll(function() {
-            if ( $(window).scrollTop() > amountScrolled ) {
-   		$('#top-link-block').fadeIn('fast');
-            } else {
-   		$('#top-link-block').fadeOut('fast');
-            }
-         });
+
 });

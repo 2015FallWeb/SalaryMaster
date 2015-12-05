@@ -93,7 +93,6 @@ body{
 
   margin:0 auto;
 }
-
 .footer {
   margin-top:10%;
   position: absolute;
@@ -146,4 +145,3 @@ body {
  .modal-open .modal{
    overflow: hidden !important; 
 }
-

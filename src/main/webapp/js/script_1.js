@@ -329,16 +329,6 @@ $('#employerName').typeahead({
 
 }
 
-function backToTop(){
-    $("#backTop").on("click",function(){
-        move();
-        
-    });
-    
-    $(window).on('scroll',function(){
-    	checkPosition($(window).height());
-    });
-}
 function typeheadFix(){
     $('.typeahead.input-sm').siblings('input.tt-hint').addClass('hint-small');
     $('.typeahead.input-lg').siblings('input.tt-hint').addClass('hint-large');
@@ -352,7 +342,6 @@ $(document).ready(function() {
        backToInit(position, city, state, employer);
        initSuggestion();
        changeMonitor();
-       backToTop();
        typeheadFix();
        var amountScrolled = 300;
 
