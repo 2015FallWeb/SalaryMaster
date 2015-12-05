@@ -93,13 +93,7 @@ body{
 
   margin:0 auto;
 }
-<<<<<<< HEAD
 
-/*#copyright{
-   
-    bottom:10px
-}*/
-=======
 .footer {
   margin-top:10%;
   position: absolute;
@@ -152,4 +146,4 @@ body {
  .modal-open .modal{
    overflow: hidden !important; 
 }
->>>>>>> db31cced09604270c928c6d38b4ee33132134c8e
+
