@@ -5,11 +5,13 @@
  */
 package org.salarymaster.model;
 
+import java.io.Serializable;
+
 /**
  *
  * @author shaofanzhang
  */
-public class Stat {
+public class Stat implements Serializable{
     private Double SalaryMin;
     private Double SalaryMax;
     private Double SalaryMedian;

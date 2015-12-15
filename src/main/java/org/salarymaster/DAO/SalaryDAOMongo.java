@@ -112,6 +112,7 @@ public class SalaryDAOMongo implements SalaryDAO{
     
     
     @Override
+    
     public List<Salary> getSalaryByTitle(String titleName) {
         FindIterable<Document> iterable = db.getCollection(Parameter.COLLECTION_SALARY).find(
                 new BasicDBObject(TITLE, titleName));

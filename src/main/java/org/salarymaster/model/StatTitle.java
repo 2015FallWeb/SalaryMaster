@@ -5,11 +5,13 @@
  */
 package org.salarymaster.model;
 
+import java.io.Serializable;
+
 /**
  *
  * @author shaofanzhang
  */
-public class StatTitle implements Comparable<StatTitle> {
+public class StatTitle implements Serializable, Comparable<StatTitle> {
     private String jobTitle;
     private Stat stat;
     private Integer count;

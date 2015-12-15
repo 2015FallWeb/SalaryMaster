@@ -16,6 +16,7 @@ import org.salarymaster.model.StatLocation;
 import org.salarymaster.model.StatTitle;
 import org.salarymaster.util.Statistic;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -78,9 +79,10 @@ public class StatController {
     
     
     @RequestMapping("/statistics/map/{employerName:.+}")
+    @Cacheable("stat")
     public List<StatLocation> getMap(@PathVariable(value="employerName") String employerName){
         List<Salary> salaryList = salaryDao.getSalary(employerName);
-        System.out.println("salary size" + salaryList.size());
+        log.info("salary size" + salaryList.size());
         
         Map<String, Integer> stateMap = new HashMap<String, Integer>();
         List<StatLocation> res = new ArrayList<StatLocation>();
@@ -93,7 +95,7 @@ public class StatController {
                 stateMap.put(st, 1);
             }   
         }
-        System.out.println("map size" + stateMap.size());
+        log.info("map size" + stateMap.size());
         for (Map.Entry<String, Integer> entry : stateMap.entrySet()) {  
             String state = entry.getKey();
             Integer count = entry.getValue();

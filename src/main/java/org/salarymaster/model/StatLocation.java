@@ -5,11 +5,13 @@
  */
 package org.salarymaster.model;
 
+import java.io.Serializable;
+
 /**
  *
  * @author shaofanzhang
  */
-public class StatLocation {
+public class StatLocation implements Serializable{
     private String state;
     private int numOfEmployee;
 

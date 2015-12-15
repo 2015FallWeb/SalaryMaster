@@ -5,13 +5,14 @@
  */
 package org.salarymaster.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  *
  * @author chanllen
  */
-public class Suggestion {
+public class Suggestion implements Serializable{
     private List<String> options;
 
     public List<String> getOptions() {

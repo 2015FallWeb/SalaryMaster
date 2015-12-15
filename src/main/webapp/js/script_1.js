@@ -169,6 +169,7 @@ function initTable(url){
         if(processing ){
             isFirst = false;
             $('html,body').animate({scrollTop:0},'0');
+            //$( '#processing-modal' ).modal( { show: true} );
             $( '#processing-modal' ).modal( { show: true} );
         }else if(!isFirst){
             

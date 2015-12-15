@@ -11,6 +11,9 @@ var max = "";
 var med = "";
 var First = true;
 var mapdata="";
+var mapajax = null;
+var summaryajax = null;
+var pieajax = null;
 
 var statesname = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California',
   'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii',
@@ -48,7 +51,7 @@ function map(companyname){
         $('#mapIntro').append("<div class='container' id='location'></div>");
         var url = "statistics/map/" + companyname;
         
-        $.ajax({
+        mapajax = $.ajax({
             url: url,
             type: "GET",
             dataType: "Json",
@@ -152,8 +155,11 @@ function map(companyname){
                
                
             },
-            error: function (data) {
-                alert("Map data loading failed");
+            
+            error: function (data, text_status, error_thrown) {
+                    if (text_status != "abort") {
+                        //alert("map loading error")  // Try request again.
+                    }
             }
         }); 
 
@@ -162,7 +168,7 @@ function pieChart(companyname) {
     $("#pieChart").remove();
     $('#graph12').append("<div  id='pieChart'></div>");
     url = "titleStatistics/" + companyname;
-      $.ajax({
+    pieajax = $.ajax({
             url: url,
             type: "GET",
             dataType: "Json",
@@ -291,8 +297,11 @@ function pieChart(companyname) {
 });         
             $("#top5").show(200);
             },
-            error: function (data) {
-                alert("data loading failed");
+                     
+            error: function (data, text_status, error_thrown) {
+                    if (text_status != "abort") {
+                        //alert("map loading error")  // Try request again.
+                    }
             }
         });
     
@@ -374,7 +383,7 @@ function toDollar(data){
 
 function summary(companyname) {
     var url = "statistics/" + encodeURIComponent(companyname);
-        $.ajax({
+    summaryajax = $.ajax({
             url: url,
             type: "GET",
             dataType: "Json",
@@ -389,8 +398,11 @@ function summary(companyname) {
                 $("#summary").show(200);
 
             },
-            error: function (data) {
-                alert("data loading failed");
+                      
+            error: function (data, text_status, error_thrown) {
+                    if (text_status != "abort") {
+                        //alert("map loading error")  // Try request again.
+                    }
             }
         });
     
@@ -422,21 +434,6 @@ function reSearchAction() {
 
 }
 
-function updateGraphs() {
-
-    var companyname = $("#company").val();
-    $("#company").keydown(function () {
-
-        if (companyname.length !== 0) {
-            updateSummary(companyname);
-            updatePie();
-            updateTable(companyname);
-            updateMap();
-        }
-    });
-
-}
-
 function updateSummary(company) {
     var url = "statistics/" + company;
     $.ajax({
@@ -454,9 +451,11 @@ function updateSummary(company) {
 
 
         },
-        error: function (data) {
-            alert("data loading failed");
-        }
+        error: function (data, text_status, error_thrown) {
+                    if (text_status != "abort") {
+                       //alert("data error!");
+                    }
+                }
     });
 
 }
@@ -488,6 +487,14 @@ function companySuggestion() {
     }).on('typeahead:selected', function (obj, datum) {
             searchResult();
     });
+}
+
+function cancelAjax(){
+     $.fn.DataTable.settings[0].jqXHR.abort();
+     summaryajax.abort();
+     mapajax.abort();
+     pieajax.abort();
+     $("#table_wrapper").hide();
 }
 function typeheadFix(){
     $('.typeahead.input-sm').siblings('input.tt-hint').addClass('hint-small');
